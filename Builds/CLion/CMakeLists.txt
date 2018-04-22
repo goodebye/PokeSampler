@@ -16,6 +16,21 @@ if (APPLE)
 project ("PokeSampler" C CXX)
 
 add_executable (APP
+    "../../Source/Pattern.cpp"
+    "../../Source/Pattern.h"
+    "../../Source/Util.h"
+    "../../Source/Note.cpp"
+    "../../Source/Note.h"
+    "../../Source/Step.cpp"
+    "../../Source/Step.h"
+    "../../Source/StepComponent.cpp"
+    "../../Source/StepComponent.h"
+    "../../Source/ChannelComponent.cpp"
+    "../../Source/ChannelComponent.h"
+    "../../Source/BeatTimer.cpp"
+    "../../Source/BeatTimer.h"
+    "../../Source/SequencerComponent.cpp"
+    "../../Source/SequencerComponent.h"
     "../../Source/MainComponent.h"
     "../../Source/MainComponent.cpp"
     "../../Source/Main.cpp"
@@ -1243,6 +1258,14 @@ add_executable (APP
     "../../JuceLibraryCode/JuceHeader.h"
 )
 
+set_source_files_properties ("../../Source/Pattern.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/Util.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/Note.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/Step.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/StepComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/ChannelComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/BeatTimer.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/SequencerComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/MainComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)
@@ -2630,6 +2653,21 @@ pkg_search_module (WEBKIT2GTK-4.0 REQUIRED webkit2gtk-4.0)
 pkg_search_module (GTK+-X11-3.0 REQUIRED gtk+-x11-3.0)
 
 add_executable (APP
+    "../../Source/Pattern.cpp"
+    "../../Source/Pattern.h"
+    "../../Source/Util.h"
+    "../../Source/Note.cpp"
+    "../../Source/Note.h"
+    "../../Source/Step.cpp"
+    "../../Source/Step.h"
+    "../../Source/StepComponent.cpp"
+    "../../Source/StepComponent.h"
+    "../../Source/ChannelComponent.cpp"
+    "../../Source/ChannelComponent.h"
+    "../../Source/BeatTimer.cpp"
+    "../../Source/BeatTimer.h"
+    "../../Source/SequencerComponent.cpp"
+    "../../Source/SequencerComponent.h"
     "../../Source/MainComponent.h"
     "../../Source/MainComponent.cpp"
     "../../Source/Main.cpp"
@@ -3857,6 +3895,14 @@ add_executable (APP
     "../../JuceLibraryCode/JuceHeader.h"
 )
 
+set_source_files_properties ("../../Source/Pattern.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/Util.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/Note.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/Step.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/StepComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/ChannelComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/BeatTimer.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/SequencerComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/MainComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../JUCE/modules/juce_audio_basics/audio_play_head/juce_AudioPlayHead.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../../JUCE/modules/juce_audio_basics/buffers/juce_AudioChannelSet.cpp" PROPERTIES HEADER_FILE_ONLY TRUE)

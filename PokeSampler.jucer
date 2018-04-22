@@ -3,6 +3,26 @@
 <JUCERPROJECT name="PokeSampler" projectType="guiapp" jucerVersion="5.3.0">
   <MAINGROUP id="tKnEp6" name="PokeSampler">
     <GROUP id="{1C206DC8-3F89-2663-B4F9-62F90D566DDE}" name="Source">
+      <FILE id="cpRLnZ" name="Pattern.cpp" compile="1" resource="0" file="Source/Pattern.cpp"/>
+      <FILE id="hX1Jz6" name="Pattern.h" compile="0" resource="0" file="Source/Pattern.h"/>
+      <FILE id="lRCmGj" name="Util.h" compile="0" resource="0" file="Source/Util.h"/>
+      <FILE id="GVu1f7" name="Note.cpp" compile="1" resource="0" file="Source/Note.cpp"/>
+      <FILE id="Ds87LS" name="Note.h" compile="0" resource="0" file="Source/Note.h"/>
+      <FILE id="DdDTjA" name="Step.cpp" compile="1" resource="0" file="Source/Step.cpp"/>
+      <FILE id="f1sybQ" name="Step.h" compile="0" resource="0" file="Source/Step.h"/>
+      <FILE id="hHNaj1" name="StepComponent.cpp" compile="1" resource="0"
+            file="Source/StepComponent.cpp"/>
+      <FILE id="URHefJ" name="StepComponent.h" compile="0" resource="0" file="Source/StepComponent.h"/>
+      <FILE id="O9OoNy" name="ChannelComponent.cpp" compile="1" resource="0"
+            file="Source/ChannelComponent.cpp"/>
+      <FILE id="uXXaVm" name="ChannelComponent.h" compile="0" resource="0"
+            file="Source/ChannelComponent.h"/>
+      <FILE id="DxSVwV" name="BeatTimer.cpp" compile="1" resource="0" file="Source/BeatTimer.cpp"/>
+      <FILE id="AKdKon" name="BeatTimer.h" compile="0" resource="0" file="Source/BeatTimer.h"/>
+      <FILE id="NwbPW2" name="SequencerComponent.cpp" compile="1" resource="0"
+            file="Source/SequencerComponent.cpp"/>
+      <FILE id="bG7w5X" name="SequencerComponent.h" compile="0" resource="0"
+            file="Source/SequencerComponent.h"/>
       <FILE id="BcFANK" name="MainComponent.h" compile="0" resource="0" file="Source/MainComponent.h"/>
       <FILE id="ZUqjTU" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>

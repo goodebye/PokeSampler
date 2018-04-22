@@ -14,7 +14,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{6ED15B2B-D4ED-1BA9-B23A-775877A0AB50}</ProjectGuid>
+    <ProjectGuid>{B87B5436-5C5C-A7B6-6FFF-F4F7C9FB7DD0}</ProjectGuid>
     <PlatformToolset>v141</PlatformToolset>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -148,6 +148,13 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Pattern.cpp"/>
+    <ClCompile Include="..\..\Source\Note.cpp"/>
+    <ClCompile Include="..\..\Source\Step.cpp"/>
+    <ClCompile Include="..\..\Source\StepComponent.cpp"/>
+    <ClCompile Include="..\..\Source\ChannelComponent.cpp"/>
+    <ClCompile Include="..\..\Source\BeatTimer.cpp"/>
+    <ClCompile Include="..\..\Source\SequencerComponent.cpp"/>
     <ClCompile Include="..\..\Source\MainComponent.cpp"/>
     <ClCompile Include="..\..\Source\Main.cpp"/>
     <ClCompile Include="..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.cpp">
@@ -1801,6 +1808,14 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Pattern.h"/>
+    <ClInclude Include="..\..\Source\Util.h"/>
+    <ClInclude Include="..\..\Source\Note.h"/>
+    <ClInclude Include="..\..\Source\Step.h"/>
+    <ClInclude Include="..\..\Source\StepComponent.h"/>
+    <ClInclude Include="..\..\Source\ChannelComponent.h"/>
+    <ClInclude Include="..\..\Source\BeatTimer.h"/>
+    <ClInclude Include="..\..\Source\SequencerComponent.h"/>
     <ClInclude Include="..\..\Source\MainComponent.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\audio_play_head\juce_AudioPlayHead.h"/>
     <ClInclude Include="..\..\..\JUCE\modules\juce_audio_basics\buffers\juce_AudioChannelSet.h"/>

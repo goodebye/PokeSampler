@@ -1,14 +1,9 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include <vector>
+#include "ChannelComponent.h"
+#include "BeatTimer.h"
 
 //==============================================================================
 /*
@@ -34,7 +29,9 @@ public:
 private:
     //==============================================================================
     // Your private member variables go here...
-
+	BeatTimer beatTimer;
+	OwnedArray<ChannelComponent> channels;
+	int numberOfChannels = 8;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

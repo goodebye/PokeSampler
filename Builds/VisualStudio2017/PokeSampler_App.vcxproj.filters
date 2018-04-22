@@ -373,6 +373,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\Pattern.cpp">
+      <Filter>PokeSampler\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Note.cpp">
+      <Filter>PokeSampler\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Step.cpp">
+      <Filter>PokeSampler\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\StepComponent.cpp">
+      <Filter>PokeSampler\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\ChannelComponent.cpp">
+      <Filter>PokeSampler\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\BeatTimer.cpp">
+      <Filter>PokeSampler\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\SequencerComponent.cpp">
+      <Filter>PokeSampler\Source</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Source\MainComponent.cpp">
       <Filter>PokeSampler\Source</Filter>
     </ClCompile>
@@ -2178,6 +2199,30 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\Pattern.h">
+      <Filter>PokeSampler\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Util.h">
+      <Filter>PokeSampler\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Note.h">
+      <Filter>PokeSampler\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Step.h">
+      <Filter>PokeSampler\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\StepComponent.h">
+      <Filter>PokeSampler\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\ChannelComponent.h">
+      <Filter>PokeSampler\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\BeatTimer.h">
+      <Filter>PokeSampler\Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\SequencerComponent.h">
+      <Filter>PokeSampler\Source</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Source\MainComponent.h">
       <Filter>PokeSampler\Source</Filter>
     </ClInclude>

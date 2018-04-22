@@ -1,28 +1,23 @@
 /*
-  ==============================================================================
+	POKESAMPLER v0.1!
 
-    This file was auto-generated!
+	by the loving people in group 35
 
-    It contains the basic startup code for a JUCE application.
-
-  ==============================================================================
+	love u cavvy
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "MainComponent.h"
 
-//==============================================================================
 class PokeSamplerApplication  : public JUCEApplication
 {
 public:
-    //==============================================================================
     PokeSamplerApplication() {}
 
     const String getApplicationName() override       { return ProjectInfo::projectName; }
     const String getApplicationVersion() override    { return ProjectInfo::versionString; }
     bool moreThanOneInstanceAllowed() override       { return true; }
 
-    //==============================================================================
     void initialise (const String& commandLine) override
     {
         // This method is where you should put your application's initialisation code..
@@ -37,7 +32,6 @@ public:
         mainWindow = nullptr; // (deletes our window)
     }
 
-    //==============================================================================
     void systemRequestedQuit() override
     {
         // This is called when the app is being asked to quit: you can ignore this
@@ -52,7 +46,6 @@ public:
         // the other instance's command-line arguments were.
     }
 
-    //==============================================================================
     /*
         This class implements the desktop window that contains an instance of
         our MainComponent class.
@@ -73,20 +66,10 @@ public:
             setVisible (true);
         }
 
-        void closeButtonPressed() override
-        {
-            // This is called when the user tries to close this window. Here, we'll just
-            // ask the app to quit when this happens, but you can change this to do
-            // whatever you need.
-            JUCEApplication::getInstance()->systemRequestedQuit();
-        }
-
-        /* Note: Be careful if you override any DocumentWindow methods - the base
-           class uses a lot of them, so by overriding you might break its functionality.
-           It's best to do all your work in your content component instead, but if
-           you really have to override any DocumentWindow methods, make sure your
-           subclass also calls the superclass's method.
-        */
+		void closeButtonPressed() override
+		{
+			JUCEApplication::getInstance()->systemRequestedQuit();
+		}
 
     private:
         JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainWindow)
@@ -96,6 +79,4 @@ private:
     ScopedPointer<MainWindow> mainWindow;
 };
 
-//==============================================================================
-// This macro generates the main() routine that launches the app.
 START_JUCE_APPLICATION (PokeSamplerApplication)

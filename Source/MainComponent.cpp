@@ -1,11 +1,3 @@
-/*
-  ==============================================================================
-
-    This file was auto-generated!
-
-  ==============================================================================
-*/
-
 #include "MainComponent.h"
 
 //==============================================================================
@@ -13,10 +5,18 @@ MainComponent::MainComponent()
 {
     // Make sure you set the size of the component after
     // you add any child components.
-    setSize (800, 600);
+    setSize (1280, 720);
 
     // specify the number of input and output channels that we want to open
     setAudioChannels (2, 2);
+
+	for (int i = 0; i < numberOfChannels; i++) {
+		channels.add(new ChannelComponent());
+		addAndMakeVisible(channels[i]);
+	}
+
+	beatTimer.setBPM(120.0);
+	beatTimer.startTimerByBPM();
 }
 
 MainComponent::~MainComponent()
@@ -67,7 +67,7 @@ void MainComponent::paint (Graphics& g)
 
 void MainComponent::resized()
 {
-    // This is called when the MainContentComponent is resized.
-    // If you add any child components, this is where you should
-    // update their positions.
+	for (ChannelComponent *c : channels) {
+		c->setBounds(getLocalBounds());
+	}
 }
