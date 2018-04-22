@@ -3,6 +3,18 @@
 <JUCERPROJECT name="PokeSampler" projectType="guiapp" jucerVersion="5.3.0">
   <MAINGROUP id="tKnEp6" name="PokeSampler">
     <GROUP id="{1C206DC8-3F89-2663-B4F9-62F90D566DDE}" name="Source">
+      <FILE id="AtJkEZ" name="SamplerComponent.cpp" compile="1" resource="0"
+            file="Source/SamplerComponent.cpp"/>
+      <FILE id="OIdjS1" name="SamplerComponent.h" compile="0" resource="0"
+            file="Source/SamplerComponent.h"/>
+      <FILE id="dhShlJ" name="LoopableSamplerVoice.cpp" compile="1" resource="0"
+            file="Source/LoopableSamplerVoice.cpp"/>
+      <FILE id="OIdR7v" name="LoopableSamplerVoice.h" compile="0" resource="0"
+            file="Source/LoopableSamplerVoice.h"/>
+      <FILE id="rwwPBf" name="LoopableSamplerSound.cpp" compile="1" resource="0"
+            file="Source/LoopableSamplerSound.cpp"/>
+      <FILE id="KqYzAz" name="LoopableSamplerSound.h" compile="0" resource="0"
+            file="Source/LoopableSamplerSound.h"/>
       <FILE id="cpRLnZ" name="Pattern.cpp" compile="1" resource="0" file="Source/Pattern.cpp"/>
       <FILE id="hX1Jz6" name="Pattern.h" compile="0" resource="0" file="Source/Pattern.h"/>
       <FILE id="lRCmGj" name="Util.h" compile="0" resource="0" file="Source/Util.h"/>

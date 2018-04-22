@@ -3,39 +3,28 @@
 
 #include "ChannelComponent.h"
 
-
-//[MiscUserDefs]
-//[/MiscUserDefs]
-
-//==============================================================================
 ChannelComponent::ChannelComponent ()
 {
     //[Constructor_pre]
     //[/Constructor_pre]
-
 
     //[UserPreSize]
     //[/UserPreSize]
 
     setSize (getWidth(), getHeight());
 
-
-    //[Constructor] You can add your own custom stuff here..
+    //[Constructor]
 	addAndMakeVisible(sequencer);
 
 	DBG("I'm a channel and I've been created!");
-    //[/Constructor]
     //[/Constructor]
 }
 
 ChannelComponent::~ChannelComponent()
 {
-    //[Destructor_pre]. You can add your own custom destruction code here..
+    //[Destructor_pre].
     //[/Destructor_pre]
-
-
-
-    //[Destructor]. You can add your own custom destruction code here..
+    //[Destructor].
     //[/Destructor]
 }
 
@@ -47,21 +36,25 @@ void ChannelComponent::computePadding()
 	padding = sp;
 }
 
-//==============================================================================
+void ChannelComponent::actionListenerCallback(const String & message)
+{
+	sequencer.trigger();
+}
+
 void ChannelComponent::paint (Graphics& g)
 {
-    //[UserPrePaint] Add your own custom painting code here..
+    //[UserPrePaint]
     //[/UserPrePaint]
 
-    g.fillAll (Colours::skyblue);
+    g.fillAll (Colours::black);
 
-    //[UserPaint] Add your own custom painting code here..
+    //[UserPaint]
     //[/UserPaint]
 }
 
 void ChannelComponent::resized()
 {
-	//[UserPreResize] Add your own custom resize )code here..
+	//[UserPreResize]
 	//[/UserPreResize]
 	computePadding();
 	sequencer.setBounds(0 + padding.padX, getHeight() / 2 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 2 - padding.padY * 2);
@@ -69,17 +62,16 @@ void ChannelComponent::resized()
 	DBG(sequencer.getBounds().getX() << ", " << sequencer.getBounds().getY() << "\n");
 
 
-    //[UserResized] Add your own custom resize handling here..
+    //[UserResized]
     //[/UserResized]
 }
 
 
 
-//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+//[MiscUserCode] 
 //[/MiscUserCode]
 
 
-//==============================================================================
 #if 0
 /*  -- Projucer information section --
 
@@ -98,7 +90,3 @@ BEGIN_JUCER_METADATA
 END_JUCER_METADATA
 */
 #endif
-
-
-//[EndFile] You can add extra defines here...
-//[/EndFile]

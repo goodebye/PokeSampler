@@ -8,8 +8,10 @@ public:
 	int getNumberOfSteps();
 	std::vector<Step> getSteps();
 	void initializePattern();
+	void serialize();
+	void deserialize();
 private:
-	int numberOfSteps;
 	const int defaultNumberOfSteps = 16;
+	int numberOfSteps = defaultNumberOfSteps;
 	std::vector<Step> steps;
 };

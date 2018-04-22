@@ -10,7 +10,6 @@
 
 
 
-//==============================================================================
 /**
                                                                     //[Comments]
     SequencerComponent: a clas which derives from JUCE's component class. This
@@ -22,15 +21,14 @@
 class SequencerComponent  : public Component
 {
 public:
-    //==============================================================================
-    SequencerComponent ();
+        SequencerComponent ();
     ~SequencerComponent();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
+        //[UserMethods]     -- You can add your own custom methods in this section.
 
 	void paint(Graphics& g) override;
 	void resized() override;
+	void visibilityChanged() override;
 	void trigger();
 	void activateStepComponent(int stepNum);
 	void deactivateStepComponent(int stepNum);
@@ -44,14 +42,12 @@ private:
 	Pattern pattern;
 	OwnedArray<StepComponent> stepComponents;
 	const int rows = 2;
-	int currentStepNumber;
+	int currentStepNumber = 0;
     //[/UserVariables]
 
-    //==============================================================================
+    
 
-
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SequencerComponent)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SequencerComponent)
 };
 
 //[EndFile] You can add extra defines here...

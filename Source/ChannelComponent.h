@@ -7,7 +7,6 @@
 
 
 
-//==============================================================================
 /**
                                                                     //[Comments]
     An auto-generated component, created by the Projucer.
@@ -15,16 +14,15 @@
     Describe your class and how it works here!
                                                                     //[/Comments]
 */
-class ChannelComponent  : public Component
+class ChannelComponent  : public Component, public ActionListener
 {
 public:
-    //==============================================================================
-    ChannelComponent ();
+        ChannelComponent ();
     ~ChannelComponent();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
+        //[UserMethods]     -- You can add your own custom methods in this section.
 	void computePadding();
+	void actionListenerCallback(const String &message) override;
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -44,11 +42,9 @@ private:
 	int padFactor = 70;
     //[/UserVariables]
 
-    //==============================================================================
+    
 
-
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChannelComponent)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChannelComponent)
 };
 
 //[EndFile] You can add extra defines here...

@@ -1,22 +1,28 @@
 #include "MainComponent.h"
 
-//==============================================================================
 MainComponent::MainComponent()
 {
     // Make sure you set the size of the component after
-    // you add any child components.
-    setSize (1280, 720);
-
-    // specify the number of input and output channels that we want to open
-    setAudioChannels (2, 2);
+	// you add any child components.
 
 	for (int i = 0; i < numberOfChannels; i++) {
 		channels.add(new ChannelComponent());
-		addAndMakeVisible(channels[i]);
+		if (i == currentChannel) {
+			addAndMakeVisible(channels[i]);
+		}
+		else {
+			addChildComponent(channels[i]);
+		}
+		beatTimer.addActionListener(channels[i]);
 	}
 
 	beatTimer.setBPM(120.0);
 	beatTimer.startTimerByBPM();
+
+    setSize (1280, 720);
+
+    // specify the number of input and output channels that we want to open
+	setAudioChannels(2, 2);
 }
 
 MainComponent::~MainComponent()
@@ -25,7 +31,6 @@ MainComponent::~MainComponent()
     shutdownAudio();
 }
 
-//==============================================================================
 void MainComponent::prepareToPlay (int samplesPerBlockExpected, double sampleRate)
 {
     // This function will be called when the audio device is started, or when
@@ -56,11 +61,10 @@ void MainComponent::releaseResources()
     // For more details, see the help for AudioProcessor::releaseResources()
 }
 
-//==============================================================================
 void MainComponent::paint (Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (ResizableWindow::backgroundColourId));
+    g.fillAll (Colours::black);
 
     // You can add your drawing code here!
 }

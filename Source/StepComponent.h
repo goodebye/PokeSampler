@@ -5,7 +5,6 @@
 #include "Step.h"
 //[/Headers]
 
-//==============================================================================
 /**
                                                                     //[Comments]
     The StepComponent class is a subclass of component and basically functions
@@ -18,12 +17,10 @@
 class StepComponent  : public Component
 {
 public:
-    //==============================================================================
-    StepComponent ();
+        StepComponent ();
     ~StepComponent();
 
-    //==============================================================================
-    //[UserMethods]     -- You can add your own custom methods in this section.
+        //[UserMethods]     -- You can add your own custom methods in this section.
 	void activate();
 	void deactivate();
 	void setHighlight(bool on);
@@ -42,11 +39,9 @@ private:
 	int stepNumber = 0;
 	//[/UserVariables]
 
-    //==============================================================================
+    
 
-
-    //==============================================================================
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StepComponent)
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StepComponent)
 };
 
 //[EndFile] You can add extra defines here...

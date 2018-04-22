@@ -12,7 +12,7 @@
 
 int Pattern::getNumberOfSteps()
 {
-	return steps.size();
+	return numberOfSteps;
 }
 
 std::vector<Step> Pattern::getSteps()

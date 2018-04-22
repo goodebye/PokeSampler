@@ -1,57 +1,51 @@
-//[Headers] You can add your own extra header files here...
+//[Headers]
 #include "Util.h"
 #include <math.h>
 //[/Headers]
 
 #include "SequencerComponent.h"
 
-//==============================================================================
 SequencerComponent::SequencerComponent ()
 {
-    //[Constructor_pre] You can add your own custom stuff here..
-
+    //[Constructor_pre]
     //[/Constructor_pre]
 
 
     //[UserPreSize]
-    //[/UserPreSize]
-
-    setSize (600, 400);
-
-
-    //[Constructor] You can add your own custom stuff here..
 	pattern.initializePattern();
 
 	int stepNum = 0;
 
 	for (Step step : pattern.getSteps()) {
-		StepComponent sc;
-		sc.setComponentID("STEP" + stepNum);
-		sc.setStepNumber(stepNum);
-		sc.setStep(&step);
+		DBG("NEW STEP CREATED");
+		StepComponent* sc = new StepComponent();
+		sc->setStepNumber(stepNum);
+		sc->setStep(&step);
+		stepComponents.add(sc);
 		addAndMakeVisible(sc);
 	}
+    //[/UserPreSize]
+
+    setSize (0, 0);
+
+    //[Constructor]
     //[/Constructor]
 }
 
 SequencerComponent::~SequencerComponent()
 {
-    //[Destructor_pre]. You can add your own custom destruction code here..
+    //[Destructor_pre].
     //[/Destructor_pre]
-    //[Destructor]. You can add your own custom destruction code here..
+    //[Destructor].
     //[/Destructor]
 }
 
-//==============================================================================
 void SequencerComponent::paint(Graphics& g)
 {
-	//[UserPrePaint] Add your own custom painting code here..
+	//[UserPrePaint]
 	//[/UserPrePaint]
 
-	g.fillAll(Colours::darkolivegreen);
-	g.setColour(Colours::green);
-	g.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2, 5);
-
+	g.fillAll(Colours::white);
 
 	//[UserPaint] Add your own custom painting code here..
 	//[/UserPaint]
@@ -62,32 +56,62 @@ void SequencerComponent::resized() {
     //[/UserPreResize]
 
     //[UserResized] Add your own custom resize handling here..
-	int stepsPerRow = pattern.getNumberOfSteps() / rows;
-	int w = getWidth() / stepsPerRow;
-	int h = getHeight() / rows;
+	if (isVisible()) {
+		int stepsPerRow = pattern.getNumberOfSteps() / rows;
+		int w = getWidth() / stepsPerRow;
+		int h = getHeight() / rows;
+		int padding = getWidth() / 30;
 
-	for (int stepNum = 0; stepNum < pattern.getNumberOfSteps(); stepNum++) {
-		int row = floor(stepNum / stepsPerRow);
-		int col = stepNum % stepsPerRow;
+		int stepNum = 0;
 
-		getChildren()[stepNum]->setBounds(col * w, row * h, w, h);
+		for (Component* sc : stepComponents) {
+			int row = floor(stepNum / stepsPerRow);
+			int col = stepNum % stepsPerRow;
+
+			Point<double> topLeft;
+			topLeft.setX(col * w);
+			topLeft.setY(row * h);
+
+			Point <double> bottomRight;
+			bottomRight.setX(w);
+			bottomRight.setY(h);
+
+			DBG(topLeft.getX() << ", " << topLeft.getY() << " " << bottomRight.getX() << ", " << bottomRight.getY());
+
+			sc->setBounds(topLeft.getX() + padding / 4, topLeft.getY() + padding / 4, w - padding / 2, h - padding / 2);
+			stepNum++;
+		}
 	}
     //[/UserResized]
 }
 
+void SequencerComponent::visibilityChanged()
+{
+	resized();
+}
+
 void SequencerComponent::trigger()
 {
+	//DBG("hey! " << currentStepNumber);
+
 	activateStepComponent(currentStepNumber);
 	// Step s = getCurrentStep();
 	// TODO: hand step over to sampler;
 	deactivateStepComponent(previousStepNumber());
 	currentStepNumber = nextStepNumber();
+	repaint();
 }
 
 void SequencerComponent::activateStepComponent(int stepNumber)
 {
-	
+	stepComponents[stepNumber]->activate();
 }
+
+void SequencerComponent::deactivateStepComponent(int stepNumber)
+{
+	stepComponents[stepNumber]->deactivate();
+}
+
 
 int SequencerComponent::previousStepNumber() 
 {
@@ -98,18 +122,10 @@ int SequencerComponent::nextStepNumber() {
 	return Util::wrappingModulo(currentStepNumber + 1, pattern.getNumberOfSteps());
 }
 
-void SequencerComponent::deactivateStepComponent(int stepNumber) 
-{
-	
-}
-
-
-
-//[MiscUserCode] You can add your own definitions of your custom methods or any other code here...
+//[MiscUserCode] 
 //[/MiscUserCode]
 
 
-//==============================================================================
 #if 0
 /*  -- Projucer information section --
 

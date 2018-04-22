@@ -23,7 +23,7 @@ void BeatTimer::startTimerByBPM()
 
 void BeatTimer::timerCallback() 
 {
-	DBG("great stuff! i'm running");
+	sendActionMessage("great! fantastic!");
 }
 
 int BeatTimer::bpmToMilliseconds(float bpm)

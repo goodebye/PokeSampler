@@ -16,6 +16,12 @@ if (APPLE)
 project ("PokeSampler" C CXX)
 
 add_executable (APP
+    "../../Source/SamplerComponent.cpp"
+    "../../Source/SamplerComponent.h"
+    "../../Source/LoopableSamplerVoice.cpp"
+    "../../Source/LoopableSamplerVoice.h"
+    "../../Source/LoopableSamplerSound.cpp"
+    "../../Source/LoopableSamplerSound.h"
     "../../Source/Pattern.cpp"
     "../../Source/Pattern.h"
     "../../Source/Util.h"
@@ -1258,6 +1264,9 @@ add_executable (APP
     "../../JuceLibraryCode/JuceHeader.h"
 )
 
+set_source_files_properties ("../../Source/SamplerComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/LoopableSamplerVoice.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/LoopableSamplerSound.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/Pattern.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/Util.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/Note.h" PROPERTIES HEADER_FILE_ONLY TRUE)
@@ -2653,6 +2662,12 @@ pkg_search_module (WEBKIT2GTK-4.0 REQUIRED webkit2gtk-4.0)
 pkg_search_module (GTK+-X11-3.0 REQUIRED gtk+-x11-3.0)
 
 add_executable (APP
+    "../../Source/SamplerComponent.cpp"
+    "../../Source/SamplerComponent.h"
+    "../../Source/LoopableSamplerVoice.cpp"
+    "../../Source/LoopableSamplerVoice.h"
+    "../../Source/LoopableSamplerSound.cpp"
+    "../../Source/LoopableSamplerSound.h"
     "../../Source/Pattern.cpp"
     "../../Source/Pattern.h"
     "../../Source/Util.h"
@@ -3895,6 +3910,9 @@ add_executable (APP
     "../../JuceLibraryCode/JuceHeader.h"
 )
 
+set_source_files_properties ("../../Source/SamplerComponent.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/LoopableSamplerVoice.h" PROPERTIES HEADER_FILE_ONLY TRUE)
+set_source_files_properties ("../../Source/LoopableSamplerSound.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/Pattern.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/Util.h" PROPERTIES HEADER_FILE_ONLY TRUE)
 set_source_files_properties ("../../Source/Note.h" PROPERTIES HEADER_FILE_ONLY TRUE)

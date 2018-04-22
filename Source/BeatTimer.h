@@ -1,18 +1,9 @@
-/*
-  ==============================================================================
-
-    BeatTimer.h
-    Created: 21 Apr 2018 2:57:12am
-    Author:  goode bye
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "SequencerComponent.h"
 
-class BeatTimer : public Timer {
+class BeatTimer : public Timer, public ActionBroadcaster {
 	public: 
 		void setBPM(float bpm);
 		void startTimerByBPM();
@@ -20,5 +11,6 @@ class BeatTimer : public Timer {
 		int bpmToMilliseconds(float bpm);
 
 	private:
+
 		float bpm;
 };

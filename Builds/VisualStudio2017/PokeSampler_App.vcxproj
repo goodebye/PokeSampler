@@ -148,6 +148,9 @@
     <Lib/>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Source\SamplerComponent.cpp"/>
+    <ClCompile Include="..\..\Source\LoopableSamplerVoice.cpp"/>
+    <ClCompile Include="..\..\Source\LoopableSamplerSound.cpp"/>
     <ClCompile Include="..\..\Source\Pattern.cpp"/>
     <ClCompile Include="..\..\Source\Note.cpp"/>
     <ClCompile Include="..\..\Source\Step.cpp"/>
@@ -1808,6 +1811,9 @@
     <ClCompile Include="..\..\JuceLibraryCode\include_juce_video.cpp"/>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Source\SamplerComponent.h"/>
+    <ClInclude Include="..\..\Source\LoopableSamplerVoice.h"/>
+    <ClInclude Include="..\..\Source\LoopableSamplerSound.h"/>
     <ClInclude Include="..\..\Source\Pattern.h"/>
     <ClInclude Include="..\..\Source\Util.h"/>
     <ClInclude Include="..\..\Source\Note.h"/>
