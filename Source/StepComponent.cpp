@@ -1,31 +1,26 @@
-//[Headers] You can add your own extra header files here...
+//[Headers] 
 //[/Headers]
 
 #include "StepComponent.h"
 
-//[MiscUserDefs] You can add your own user definitions and misc code here...
-//[/MiscUserDefs]
-
 StepComponent::StepComponent ()
 {
-    //[Constructor_pre] You can add your own custom stuff here..
+    //[Constructor_pre] 
     //[/Constructor_pre]
-
     //[UserPreSize]
     //[/UserPreSize]
 
     setSize (600, 400);
 
-    //[Constructor] You can add your own custom stuff here..
+    //[Constructor] 
     //[/Constructor]
 }
 
 StepComponent::~StepComponent()
 {
-    //[Destructor_pre]. You can add your own custom destruction code here..
+    //[Destructor_pre]. 
     //[/Destructor_pre]
-
-    //[Destructor]. You can add your own custom destruction code here..
+    //[Destructor]. 
     //[/Destructor]
 }
 
@@ -62,43 +57,35 @@ void StepComponent::setStepNumber(int _stepNum)
 
 void StepComponent::paint (Graphics& g)
 {
-    //[UserPrePaint] Add your own custom painting code here..
+    //[UserPrePaint]
     //[/UserPrePaint]
 
-	Colour fillColor = Colours::white;
-	if (highlighted) {
-		if (step->isEmpty()) {
-			fillColor = Colours::dimgrey;
+    //[UserPaint]
+		Colour fillColor = Colours::white;
+		if (highlighted) {
+			if (step->isEmpty()) {
+				fillColor = Colours::dimgrey;
+			}
+			else {
+				fillColor = Colours::black;
+			}
 		}
-		else {
-			fillColor = Colours::black;
-		}
-	}
-	
-    g.fillAll (fillColor);
 
-	g.setColour(Colours::black);
+		g.fillAll(fillColor);
 
-	g.drawRect(0, 0, getWidth(), getHeight());
+		g.setColour(Colours::black);
 
-    //[UserPaint] Add your own custom painting code here..
+		g.drawRect(0, 0, getWidth(), getHeight());
     //[/UserPaint]
 }
 
 void StepComponent::resized()
 {
-    //[UserPreResize] Add your own custom resize code here..
+    //[UserPreResize] 
     //[/UserPreResize]
-
-    //[UserResized] Add your own custom resize handling here..
+    //[UserResized] 
     //[/UserResized]
 }
-
-
-
-//[MiscUserCode] 
-//[/MiscUserCode]
-
 
 #if 0
 /*  -- Projucer information section --

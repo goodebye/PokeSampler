@@ -1,50 +1,65 @@
-//[Headers] You can add your own extra header files here...
+//[Headers] 
 //[/Headers]
 
 #include "SamplerComponent.h"
 
 SamplerComponent::SamplerComponent ()
 {
-    //[Constructor_pre] You can add your own custom stuff here..
+    //[Constructor_pre]
+	synth = samplerSource.getSynth();
     //[/Constructor_pre]
+
     //[UserPreSize]
     //[/UserPreSize]
 
     setSize (600, 400);
 
-    //[Constructor] You can add your own custom stuff here..
+    //[Constructor] 
     //[/Constructor]
 }
 
 SamplerComponent::~SamplerComponent()
 {
-    //[Destructor_pre]. You can add your own custom destruction code here..
+    //[Destructor_pre]. 
     //[/Destructor_pre]
 
-    //[Destructor]. You can add your own custom destruction code here..
+    //[Destructor]. 
     //[/Destructor]
+}
+
+SamplerAudioSource* SamplerComponent::getAudioSource() {
+	return &samplerSource;
+}
+
+void SamplerComponent::noteOn(Note note)
+{
+	synth->noteOn(1, note.midiNote, 127);
+}
+
+void SamplerComponent::noteOff(Note note)
+{
+	synth->noteOn(1, note.midiNote, 127);
 }
 
 void SamplerComponent::paint (Graphics& g)
 {
-    //[UserPrePaint] Add your own custom painting code here..
+    //[UserPrePaint]
     //[/UserPrePaint]
 
-    g.fillAll (Colour (0xff323e44));
+    g.fillAll (Colours::skyblue);
 
-    //[UserPaint] Add your own custom painting code here..
+    //[UserPaint]
     //[/UserPaint]
 }
 
 void SamplerComponent::resized()
 {
-    //[UserPreResize] Add your own custom resize code here..
+    //[UserPreResize] 
     //[/UserPreResize]
 
-    //[UserResized] Add your own custom resize handling here..
+    //[UserResized] 
     //[/UserResized]
 }
-
 #if 0
 /*  -- Projucer information section --
 

@@ -47,15 +47,15 @@ void SequencerComponent::paint(Graphics& g)
 
 	g.fillAll(Colours::white);
 
-	//[UserPaint] Add your own custom painting code here..
+	//[UserPaint]
 	//[/UserPaint]
 }
 
 void SequencerComponent::resized() {
-    //[UserPreResize] Add your own custom resize code here..
+    //[UserPreResize] 
     //[/UserPreResize]
 
-    //[UserResized] Add your own custom resize handling here..
+    //[UserResized] 
 	if (isVisible()) {
 		int stepsPerRow = pattern.getNumberOfSteps() / rows;
 		int w = getWidth() / stepsPerRow;

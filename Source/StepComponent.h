@@ -20,7 +20,7 @@ public:
         StepComponent ();
     ~StepComponent();
 
-        //[UserMethods]     -- You can add your own custom methods in this section.
+        //[UserMethods]
 	void activate();
 	void deactivate();
 	void setHighlight(bool on);
@@ -33,7 +33,7 @@ public:
     void resized() override;
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
+    //[UserVariables] 
 	bool highlighted = false;
 	bool hasContent = false;
 	int stepNumber = 0;

@@ -4,6 +4,7 @@
 #include <vector>
 #include "ChannelComponent.h"
 #include "BeatTimer.h"
+#include "LoopableSamplerVoice.h"
 
 class MainComponent   : public AudioAppComponent
 {
@@ -21,6 +22,8 @@ public:
 private:
 	BeatTimer beatTimer;
 	OwnedArray<ChannelComponent> channels;
+	std::vector<SamplerAudioSource*> samplerAudioSources;
+	MixerAudioSource mixer;
 	int currentChannel = 0;
 	int numberOfChannels = 8;
 

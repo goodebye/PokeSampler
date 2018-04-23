@@ -2,10 +2,9 @@
 
 //[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "SamplerComponent.h"
 #include "SequencerComponent.h"
 //[/Headers]
-
-
 
 /**
                                                                     //[Comments]
@@ -20,24 +19,24 @@ public:
         ChannelComponent ();
     ~ChannelComponent();
 
-        //[UserMethods]     -- You can add your own custom methods in this section.
+        //[UserMethods]
 	void computePadding();
 	void actionListenerCallback(const String &message) override;
+	SamplerComponent* getSamplerComponent();
     //[/UserMethods]
 
     void paint (Graphics& g) override;
     void resized() override;
 
-
-
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
+    //[UserVariables] 
 
 	struct SequencerPadding {
 		int padX = 0;
 		int padY = 0;
 	};
 	SequencerComponent sequencer;
+	SamplerComponent samplerComponent;
 	SequencerPadding padding;
 	int padFactor = 70;
     //[/UserVariables]

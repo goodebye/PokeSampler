@@ -15,6 +15,7 @@ ChannelComponent::ChannelComponent ()
 
     //[Constructor]
 	addAndMakeVisible(sequencer);
+	addAndMakeVisible(samplerComponent);
 
 	DBG("I'm a channel and I've been created!");
     //[/Constructor]
@@ -41,6 +42,11 @@ void ChannelComponent::actionListenerCallback(const String & message)
 	sequencer.trigger();
 }
 
+SamplerComponent * ChannelComponent::getSamplerComponent()
+{
+	return &samplerComponent;
+}
+
 void ChannelComponent::paint (Graphics& g)
 {
     //[UserPrePaint]
@@ -56,13 +62,13 @@ void ChannelComponent::resized()
 {
 	//[UserPreResize]
 	//[/UserPreResize]
-	computePadding();
-	sequencer.setBounds(0 + padding.padX, getHeight() / 2 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 2 - padding.padY * 2);
-	
-	DBG(sequencer.getBounds().getX() << ", " << sequencer.getBounds().getY() << "\n");
-
 
     //[UserResized]
+	computePadding();
+	sequencer.setBounds(0 + padding.padX, getHeight() / 2 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 2 - padding.padY * 2);
+	samplerComponent.setBounds(0 + padding.padX, 0 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 2 - padding.padY * 2);
+
+	DBG(sequencer.getBounds().getX() << ", " << sequencer.getBounds().getY() << "\n");
     //[/UserResized]
 }
 

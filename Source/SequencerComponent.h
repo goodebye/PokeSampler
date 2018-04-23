@@ -8,8 +8,6 @@
 #include "Step.h"
 //[/Headers]
 
-
-
 /**
                                                                     //[Comments]
     SequencerComponent: a clas which derives from JUCE's component class. This
@@ -21,10 +19,10 @@
 class SequencerComponent  : public Component
 {
 public:
-        SequencerComponent ();
+     SequencerComponent ();
     ~SequencerComponent();
 
-        //[UserMethods]     -- You can add your own custom methods in this section.
+        //[UserMethods]
 
 	void paint(Graphics& g) override;
 	void resized() override;
@@ -38,16 +36,14 @@ public:
     //[/UserMethods]
 
 private:
-    //[UserVariables]   -- You can add your own custom variables in this section.
+    //[UserVariables]
 	Pattern pattern;
 	OwnedArray<StepComponent> stepComponents;
 	const int rows = 2;
 	int currentStepNumber = 0;
     //[/UserVariables]
 
-    
-
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SequencerComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SequencerComponent)
 };
 
 //[EndFile] You can add extra defines here...
