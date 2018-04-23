@@ -35,7 +35,6 @@ public:
 private:
     //[UserVariables] 
 	bool highlighted = false;
-	bool hasContent = false;
 	int stepNumber = 0;
 	//[/UserVariables]
 

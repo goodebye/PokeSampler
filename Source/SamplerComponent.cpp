@@ -33,12 +33,12 @@ SamplerAudioSource* SamplerComponent::getAudioSource() {
 
 void SamplerComponent::noteOn(Note note)
 {
-	synth->noteOn(1, note.midiNote, 127);
+	synth->noteOn(1, note.getMidiNote(), note.getVelocity());
 }
 
 void SamplerComponent::noteOff(Note note)
 {
-	synth->noteOn(1, note.midiNote, 127);
+	synth->noteOff(1, note.getMidiNote(), 127, false);
 }
 
 void SamplerComponent::paint (Graphics& g)
@@ -47,6 +47,9 @@ void SamplerComponent::paint (Graphics& g)
     //[/UserPrePaint]
 
     g.fillAll (Colours::skyblue);
+
+	Note testNote(60);
+	//noteOn(testNote);
 
     //[UserPaint]
     //[/UserPaint]

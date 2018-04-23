@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    Pattern.cpp
-    Created: 21 Apr 2018 7:53:31pm
-    Author:  goode bye
-
-  ==============================================================================
-*/
-
 #include "Pattern.h"
 
 int Pattern::getNumberOfSteps()
@@ -18,6 +8,10 @@ int Pattern::getNumberOfSteps()
 std::vector<Step> Pattern::getSteps()
 {
 	return steps;
+}
+
+Step Pattern::getStep(int index) {
+	return steps[index];
 }
 
 void Pattern::initializePattern()

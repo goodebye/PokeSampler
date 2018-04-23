@@ -1,13 +1,3 @@
-/*
-  ==============================================================================
-
-    Step.h
-    Created: 21 Apr 2018 4:54:29am
-    Author:  goode bye
-
-  ==============================================================================
-*/
-
 #pragma once
 
 #include "Note.h"
@@ -16,9 +6,11 @@
 class Step {
 public:
 	bool isEmpty();
-	const enum StepState { EMPTY, NONEMPTY };
-	std::string test = "test";
+	void setNoteOn(Note n);
+	void setNoteOff(Note n);
+	Note getNoteOn();
+	Note getNoteOff();
 private:
-	Note note;
-	StepState state = EMPTY;
+	Note *noteOn = nullptr;
+	Note *noteOff = nullptr;
 };

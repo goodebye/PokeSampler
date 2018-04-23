@@ -1,17 +1,25 @@
-/*
-  ==============================================================================
-
-    Step.cpp
-    Created: 21 Apr 2018 4:54:29am
-    Author:  goode bye
-
-  ==============================================================================
-*/
+#pragma once
 
 #include "Step.h"
 
+void Step::setNoteOn(Note n) {
+	noteOn = &n;
+}
+
+void Step::setNoteOff(Note n) {
+	noteOn = &n;
+}
+
+Note Step::getNoteOn() {
+	return *noteOn;
+}
+
+Note Step::getNoteOff() {
+	return *noteOff;
+}
+
 bool Step::isEmpty() {
-	if (state == StepState::EMPTY) {
+	if (noteOn == nullptr) {
 		return true;
 	}
 	else {

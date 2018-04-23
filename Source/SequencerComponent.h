@@ -27,7 +27,7 @@ public:
 	void paint(Graphics& g) override;
 	void resized() override;
 	void visibilityChanged() override;
-	void trigger();
+	Step trigger();
 	void activateStepComponent(int stepNum);
 	void deactivateStepComponent(int stepNum);
 	int previousStepNumber();
@@ -45,6 +45,3 @@ private:
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SequencerComponent)
 };
-
-//[EndFile] You can add extra defines here...
-//[/EndFile]

@@ -376,12 +376,6 @@
     <ClCompile Include="..\..\Source\SamplerComponent.cpp">
       <Filter>PokeSampler\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\LoopableSamplerVoice.cpp">
-      <Filter>PokeSampler\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\LoopableSamplerSound.cpp">
-      <Filter>PokeSampler\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Pattern.cpp">
       <Filter>PokeSampler\Source</Filter>
     </ClCompile>
@@ -2212,9 +2206,6 @@
       <Filter>PokeSampler\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\LoopableSamplerVoice.h">
-      <Filter>PokeSampler\Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\LoopableSamplerSound.h">
       <Filter>PokeSampler\Source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Pattern.h">

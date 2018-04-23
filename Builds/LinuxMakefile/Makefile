@@ -69,8 +69,6 @@ endif
 
 OBJECTS_APP := \
   $(JUCE_OBJDIR)/SamplerComponent_91d4b9de.o \
-  $(JUCE_OBJDIR)/LoopableSamplerVoice_8386fb1.o \
-  $(JUCE_OBJDIR)/LoopableSamplerSound_d8ed210e.o \
   $(JUCE_OBJDIR)/Pattern_a0d6f3f1.o \
   $(JUCE_OBJDIR)/Note_efaaab7b.o \
   $(JUCE_OBJDIR)/Step_e6920555.o \
@@ -109,16 +107,6 @@ $(JUCE_OUTDIR)/$(JUCE_TARGET_APP) : check-pkg-config $(OBJECTS_APP) $(RESOURCES)
 $(JUCE_OBJDIR)/SamplerComponent_91d4b9de.o: ../../Source/SamplerComponent.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling SamplerComponent.cpp"
-	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
-
-$(JUCE_OBJDIR)/LoopableSamplerVoice_8386fb1.o: ../../Source/LoopableSamplerVoice.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling LoopableSamplerVoice.cpp"
-	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
-
-$(JUCE_OBJDIR)/LoopableSamplerSound_d8ed210e.o: ../../Source/LoopableSamplerSound.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling LoopableSamplerSound.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Pattern_a0d6f3f1.o: ../../Source/Pattern.cpp

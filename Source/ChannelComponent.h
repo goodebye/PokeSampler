@@ -8,18 +8,21 @@
 
 /**
                                                                     //[Comments]
-    An auto-generated component, created by the Projucer.
-
-    Describe your class and how it works here!
+    This component is one of the main components in this application. It holds
+	both a SequencerComponent and a SamplerComponent, as well as listens for
+	ticks from the BeatTimer, to be sent to the Sequencer. Each tick to the
+	Sequencer should return a Step, either empty or full. If the step has content,
+	we send it to the SamplerComponent, where it will be sent to the SamplerSynthesizer
+	and play a note.
                                                                     //[/Comments]
 */
 class ChannelComponent  : public Component, public ActionListener
 {
 public:
-        ChannelComponent ();
+     ChannelComponent ();
     ~ChannelComponent();
 
-        //[UserMethods]
+    //[UserMethods]
 	void computePadding();
 	void actionListenerCallback(const String &message) override;
 	SamplerComponent* getSamplerComponent();
@@ -39,11 +42,11 @@ private:
 	SamplerComponent samplerComponent;
 	SequencerPadding padding;
 	int padFactor = 70;
+	int noteToTurnOff = 60;
+	Random random;
     //[/UserVariables]
 
-    
-
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChannelComponent)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChannelComponent)
 };
 
 //[EndFile] You can add extra defines here...

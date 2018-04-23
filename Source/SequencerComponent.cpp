@@ -8,22 +8,30 @@
 SequencerComponent::SequencerComponent ()
 {
     //[Constructor_pre]
-    //[/Constructor_pre]
-
-
-    //[UserPreSize]
 	pattern.initializePattern();
 
 	int stepNum = 0;
 
 	for (Step step : pattern.getSteps()) {
 		DBG("NEW STEP CREATED");
+		if (stepNum % 2 == 0) {
+			step.setNoteOn(Note(60));
+		}
+		else {
+			step.setNoteOff(Note(60));
+		}
 		StepComponent* sc = new StepComponent();
 		sc->setStepNumber(stepNum);
 		sc->setStep(&step);
+
 		stepComponents.add(sc);
 		addAndMakeVisible(sc);
+
+		stepNum++;
 	}
+    //[/Constructor_pre]
+
+    //[UserPreSize]
     //[/UserPreSize]
 
     setSize (0, 0);
@@ -76,8 +84,6 @@ void SequencerComponent::resized() {
 			bottomRight.setX(w);
 			bottomRight.setY(h);
 
-			DBG(topLeft.getX() << ", " << topLeft.getY() << " " << bottomRight.getX() << ", " << bottomRight.getY());
-
 			sc->setBounds(topLeft.getX() + padding / 4, topLeft.getY() + padding / 4, w - padding / 2, h - padding / 2);
 			stepNum++;
 		}
@@ -90,16 +96,13 @@ void SequencerComponent::visibilityChanged()
 	resized();
 }
 
-void SequencerComponent::trigger()
+Step SequencerComponent::trigger()
 {
-	//DBG("hey! " << currentStepNumber);
-
 	activateStepComponent(currentStepNumber);
-	// Step s = getCurrentStep();
-	// TODO: hand step over to sampler;
 	deactivateStepComponent(previousStepNumber());
 	currentStepNumber = nextStepNumber();
 	repaint();
+	return Step();
 }
 
 void SequencerComponent::activateStepComponent(int stepNumber)
@@ -111,7 +114,6 @@ void SequencerComponent::deactivateStepComponent(int stepNumber)
 {
 	stepComponents[stepNumber]->deactivate();
 }
-
 
 int SequencerComponent::previousStepNumber() 
 {

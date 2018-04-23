@@ -25,7 +25,7 @@ ChannelComponent::~ChannelComponent()
 {
     //[Destructor_pre].
     //[/Destructor_pre]
-    //[Destructor].
+    //[Destructor].	
     //[/Destructor]
 }
 
@@ -39,7 +39,13 @@ void ChannelComponent::computePadding()
 
 void ChannelComponent::actionListenerCallback(const String & message)
 {
-	sequencer.trigger();
+	Step s = sequencer.trigger();
+	int noteValue = random.nextInt(10) + 50;
+	Note testNote = Note(noteValue);
+	samplerComponent.noteOff(Note(noteToTurnOff));
+	samplerComponent.noteOn(testNote);
+	//samplerComponent.noteOff(Note(noteToTurnOff));
+	noteToTurnOff = noteValue;
 }
 
 SamplerComponent * ChannelComponent::getSamplerComponent()
@@ -72,11 +78,8 @@ void ChannelComponent::resized()
     //[/UserResized]
 }
 
-
-
 //[MiscUserCode] 
 //[/MiscUserCode]
-
 
 #if 0
 /*  -- Projucer information section --

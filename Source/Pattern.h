@@ -7,6 +7,7 @@ class Pattern {
 public:
 	int getNumberOfSteps();
 	std::vector<Step> getSteps();
+	Step getStep(int index);
 	void initializePattern();
 	void serialize();
 	void deserialize();
