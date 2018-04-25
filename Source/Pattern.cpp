@@ -1,7 +1,6 @@
 #include "Pattern.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 
-
 /*
 	Patterns hold a vector of Steps, which themselves contain note data.
 	Pattern is used by our sequencer to hold steps with notes
@@ -25,9 +24,17 @@ Step* Pattern::getStep(int index) {
 void Pattern::addStep(int index, Step* step)
 {
 	if (!step->isEmpty()) {
+		addNoteOn(Util::wrappingModulo(index, numberOfSteps), step->getNoteOn());
 		addNoteOff(Util::wrappingModulo(index + step->getStepsUntilNoteOff(), numberOfSteps), step->getNoteOn());
+		steps[index]->setNoteOn(step->getNoteOn(), step->getStepsUntilNoteOff());
 	}
-	steps[index] = step;
+	else {
+		steps[index]->setEmpty();
+	}
+}
+
+void Pattern::addNoteOn(int index, Note n) {
+	notesOn.insert({ index, n });
 }
 
 void Pattern::addNoteOff(int index, Note n) {
@@ -41,6 +48,13 @@ bool Pattern::noteOffExists(int index) {
 	return false;
 }
 
+bool Pattern::noteOnExists(int index) {
+	if (notesOn.count(index) > 0) {
+		return true;
+	}
+	return false;
+}
+
 Note* Pattern::getNoteOff(int index) {
 	if (noteOffExists(index)) {
 		return &notesOff[index];
@@ -49,16 +63,22 @@ Note* Pattern::getNoteOff(int index) {
 }
 
 Note* Pattern::getNoteOn(int index) {
-	if (!steps[index]->isEmpty()) {
-		return &steps[index]->getNoteOn();
+	if (noteOnExists(index)) {
+		return &notesOn[index];
 	}
 	return nullptr;
 }
 
 std::pair<Note*, Note*> Pattern::noteEventsAtStep(int stepNumber) {
 	DBG("HEY BITCH: ");
-	DBG(getNoteOn(stepNumber)->toString());
 	return std::pair <Note*, Note*> (getNoteOn(stepNumber), getNoteOff(stepNumber));
+}
+
+void Pattern::clearStep(int stepNumber) {
+	int noteOffPosition = Util::wrappingModulo(stepNumber + steps[stepNumber]->getStepsUntilNoteOff(), numberOfSteps);
+	notesOn.erase(stepNumber);
+	notesOff.erase(noteOffPosition);
+	steps[stepNumber]->setEmpty();
 }
 
 void Pattern::initializePattern()

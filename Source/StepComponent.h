@@ -3,6 +3,7 @@
 //[Headers]     -- You can add your own extra header files here --
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Step.h"
+#include "Pattern.h"
 //[/Headers]
 
 /**
@@ -26,15 +27,19 @@ public:
 	void setHighlight(bool on);
 	void setStep(Step *_step);
 	void setStepNumber(int _stepNum);
+	void mouseDown(const MouseEvent & me) override;
     //[/UserMethods]
 
     void paint (Graphics& g) override;
+	void storePatternReference(Pattern * p);
     void resized() override;
 
 private:
     //[UserVariables] 
 	bool highlighted = false;
+	Random random;
 	Step* step = nullptr;
+	Pattern* pattern = nullptr;
 	int stepNumber = 0;
 	//[/UserVariables]
 

@@ -30,12 +30,19 @@ MainComponent::MainComponent()
 		// adds channel as a listener to our beat triggered event!
 		beatTimer.addActionListener(channels[i]);
 
+		// adds buttons to select channel
+		TextButton* channelButton = new TextButton();
+		channelButton->setButtonText("#" + std::to_string(i));
+		channelButton->addListener(this);
+		addAndMakeVisible(channelButton);
+		channelSelectorButtons.add(channelButton);
+
 		// adds our channel as an input source to our mixer
 		mixer.addInputSource(channels[i]->getSamplerComponent()->getAudioSource(), false);
 	}
 
 	// initialize our beatTimer with a default BPM of 120 (common value) and start it
-	beatTimer.setBPM(50.0);
+	beatTimer.setBPM(120.0);
 	beatTimer.startTimerByBPM();
 
     setSize (1280, 720);
@@ -82,6 +89,34 @@ void MainComponent::resized()
 	for (ChannelComponent *c : channels) {
 		// when the parent component is resized, we need to tell the subcomponents
 		// to recalculate their bounds as well
-		c->setBounds(getLocalBounds());
+		c->setBounds(0, getHeight() / 40, getWidth(), getHeight() - getHeight() / 30);
 	}
+
+	int buttonNumber = 0;
+	int numberOfButtons = channelSelectorButtons.size();
+
+	for (Button* button : channelSelectorButtons) {
+		button->setBounds(getWidth() / numberOfButtons * buttonNumber, 0, 
+			getWidth() / numberOfButtons, getHeight() / 30);
+		buttonNumber++;
+	}
+}
+
+void MainComponent::buttonClicked(Button * button) {
+	int channel = 0;
+
+	for (Button* b : channelSelectorButtons) {
+		if (b == button) {
+			DBG("switching to channel " + channel);
+			setActiveChannel(channel);
+			return;
+		}
+		channel++;
+	}
+}
+
+void MainComponent::setActiveChannel(int channelNumber) {
+	channels[currentChannel]->setVisible(false);
+	currentChannel = channelNumber;
+	channels[currentChannel]->setVisible(true);
 }

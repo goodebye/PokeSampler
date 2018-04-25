@@ -8,6 +8,12 @@ Step::Step(Note n, int duration) {
 	setNoteOn(n, duration);
 }
 
+Step::Step(Note* n, int duration) {
+	Note newNote = Note(n->getMidiNote());
+	setNoteOn(newNote, duration);
+}
+
+
 void Step::setNoteOn(Note n, int _stepsUntilNoteOff) {
 	noteOn = &n;
 	setStepsUntilNoteOff(_stepsUntilNoteOff);
@@ -31,4 +37,9 @@ bool Step::isEmpty() {
 		return true;
 	}
 	return false;
+}
+
+void Step::setEmpty() {
+	empty = true;
+	noteOn = nullptr;
 }

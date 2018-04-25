@@ -14,9 +14,6 @@ SequencerComponent::SequencerComponent ()
 
 	// for each of the steps...
 	for (int stepNum = 0; stepNum < 16; stepNum++) {
-		
-		DBG("NEW STEP CREATED");
-
 		if (stepNum % 2 == 0) {
 			int noteValue = random.nextInt(20) + 64;
 
@@ -34,6 +31,8 @@ SequencerComponent::SequencerComponent ()
 		sc->setStepNumber(stepNum);
 		// add reference to step to our StepComponent
 		sc->setStep(pattern.getStep(stepNum));
+		// add reference to pattern
+		sc->storePatternReference(&pattern);
 
 		// add stepComponent to our container of components for later reference
 		stepComponents.add(sc);

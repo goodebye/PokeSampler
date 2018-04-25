@@ -81,6 +81,22 @@ void StepComponent::paint (Graphics& g)
     //[/UserPaint]
 }
 
+void StepComponent::storePatternReference(Pattern* p) {
+	pattern = p;
+}
+
+void StepComponent::mouseDown(const MouseEvent& me) {
+	if (me.mods.isRightButtonDown()) {
+		// remove the step
+		pattern->clearStep(stepNumber);
+	}
+	else if (me.mods.isLeftButtonDown()) {
+		// add step
+		pattern->addStep(stepNumber, new Step(Note(random.nextInt(10) + 60), 1));
+	}
+	repaint();
+}
+
 void StepComponent::resized()
 {
     //[UserPreResize] 
