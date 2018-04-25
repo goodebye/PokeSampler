@@ -2,122 +2,46 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 
+/*
+	This file defines our Synthesizer and SamplerVoices. These are used by our SamplerComponent et al.
+	to make sounds based on MIDI messages.
+*/
 
-//==============================================================================
-struct LoopableSamplerSound : public SynthesiserSound
-{
-	LoopableSamplerSound() {}
-
-	bool appliesToNote(int) override { return true; }
-	bool appliesToChannel(int) override { return true; }
-};
-
-//==============================================================================
-struct LoopableSamplerVoice : public SynthesiserVoice
-{
-	LoopableSamplerVoice() {}
-
-	bool canPlaySound(SynthesiserSound* sound) override
-	{
-		return dynamic_cast<LoopableSamplerSound*> (sound) != nullptr;
-	}
-
-	void startNote(int midiNoteNumber, float velocity,
-		SynthesiserSound*, int /*currentPitchWheelPosition*/) override
-	{
-		currentAngle = 0.0;
-		level = velocity * 0.15;
-		tailOff = 0.0;
-
-		auto cyclesPerSecond = MidiMessage::getMidiNoteInHertz(midiNoteNumber);
-		auto cyclesPerSample = cyclesPerSecond / getSampleRate();
-
-		angleDelta = cyclesPerSample * 2.0 * MathConstants<double>::pi;
-	}
-
-	void stopNote(float /*velocity*/, bool allowTailOff) override
-	{
-		if (allowTailOff)
-		{
-			if (tailOff == 0.0)
-				tailOff = 1.0;
-		}
-		else
-		{
-			clearCurrentNote();
-			angleDelta = 0.0;
-		}
-	}
-
-	void pitchWheelMoved(int) override {}
-	void controllerMoved(int, int) override {}
-
-	void renderNextBlock(AudioSampleBuffer& outputBuffer, int startSample, int numSamples) override
-	{
-		if (angleDelta != 0.0)
-		{
-			if (tailOff > 0.0) // [7]
-			{
-				while (--numSamples >= 0)
-				{
-					auto currentSample = (float)(std::sin(currentAngle) * level * tailOff);
-
-					for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
-						outputBuffer.addSample(i, startSample, currentSample);
-
-					currentAngle += angleDelta;
-					++startSample;
-
-					tailOff *= 0.99; // [8]
-
-					if (tailOff <= 0.005)
-					{
-						clearCurrentNote(); // [9]
-
-						angleDelta = 0.0;
-						break;
-					}
-				}
-			}
-			else
-			{
-				while (--numSamples >= 0) // [6]
-				{
-					auto currentSample = (float)(std::sin(currentAngle) * level);
-
-					for (auto i = outputBuffer.getNumChannels(); --i >= 0;)
-						outputBuffer.addSample(i, startSample, currentSample);
-
-					currentAngle += angleDelta;
-					++startSample;
-				}
-			}
-		}
-	}
-
-private:
-	double currentAngle = 0.0, angleDelta = 0.0, level = 0.0, tailOff = 0.0;
-};
-
-//==============================================================================
 class SamplerAudioSource : public AudioSource
 {
 public:
 	SamplerAudioSource()
 	{
 		for (auto i = 0; i < 4; ++i)
-			synth.addVoice(new LoopableSamplerVoice());
+			// add voices to synth for polyphonic playback
+			synth.addVoice(new SamplerVoice());
 
-		synth.addSound(new LoopableSamplerSound());
+		// setUsingSampleSound();
 	}
 
-	void setUsingSineWaveSound()
+	void setUsingSampleSound(File f)
 	{
+		// loading sample
+		WavAudioFormat wavFormat;
+		
+		InputStream* is = f.createInputStream();
+		ScopedPointer<AudioFormatReader> audioReader(wavFormat.createReaderFor(is, true));
+
+		// setting range of sample
+		BigInteger allNotes;
+		allNotes.setRange(0, 128, true);
+
+		// adding the sample to the synthesizer
 		synth.clearSounds();
+		synth.addSound(new SamplerSound(
+			"example sound", *audioReader, allNotes, 74, 0.1, 0.1, 10.0
+		));
 	}
 
 	void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate) override
 	{
+		// setting playback rate for our synthesizer based on the call
+		// in the MainComponent
 		synth.setCurrentPlaybackSampleRate(sampleRate);
 	}
 
@@ -125,14 +49,16 @@ public:
 
 	void getNextAudioBlock(const AudioSourceChannelInfo& bufferToFill) override
 	{
+		// fill our audio buffer with sound!
 		bufferToFill.clearActiveBufferRegion();
-
 		MidiBuffer* midiBuff = new MidiBuffer();
-
 		synth.renderNextBlock(*bufferToFill.buffer, *midiBuff, bufferToFill.startSample, bufferToFill.numSamples);
 	}
 
 	Synthesiser* getSynth() {
+		// this method exists so we can have an outside reference to our synthesizer,
+		// which allows us to send it messages from outside the SamplerComponent
+
 		return &synth;
 	}
 

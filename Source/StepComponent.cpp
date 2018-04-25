@@ -26,12 +26,10 @@ StepComponent::~StepComponent()
 
 void StepComponent::activate() {
 	setHighlight(true);
-	repaint();
 }
 
 void StepComponent::deactivate() {
 	setHighlight(false);
-	repaint();
 }
 
 void StepComponent::setHighlight(bool on)
@@ -63,8 +61,6 @@ void StepComponent::paint (Graphics& g)
     //[UserPaint]
 		Colour fillColor = Colours::white;
 		if (highlighted) {
-			DBG("I'm highlight: #" << stepNumber);
-
 			if (step->isEmpty()) {
 				fillColor = Colours::dimgrey;
 			}
@@ -72,7 +68,7 @@ void StepComponent::paint (Graphics& g)
 				fillColor = Colours::black;
 			}
 		}
-		else if (!step->isEmpty()) {
+		else if (!(step->isEmpty())) {
 			// DBG("I'M NOT EMPTY?");
 			fillColor = Colours::skyblue;
 		}

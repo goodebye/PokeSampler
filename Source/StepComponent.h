@@ -20,13 +20,12 @@ public:
         StepComponent ();
     ~StepComponent();
 
-        //[UserMethods]
+    //[UserMethods]
 	void activate();
 	void deactivate();
 	void setHighlight(bool on);
 	void setStep(Step *_step);
 	void setStepNumber(int _stepNum);
-	Step* step;
     //[/UserMethods]
 
     void paint (Graphics& g) override;
@@ -35,12 +34,11 @@ public:
 private:
     //[UserVariables] 
 	bool highlighted = false;
+	Step* step = nullptr;
 	int stepNumber = 0;
 	//[/UserVariables]
 
-    
-
-        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StepComponent)
+	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StepComponent)
 };
 
 //[EndFile] You can add extra defines here...

@@ -1,9 +1,7 @@
 /*
 	POKESAMPLER v0.1!
 
-	by the loving people in group 35
-
-	love u cavvy
+	by several great people
 */
 
 #include "../JuceLibraryCode/JuceHeader.h"
@@ -20,30 +18,27 @@ public:
 
     void initialise (const String& commandLine) override
     {
-        // This method is where you should put your application's initialisation code..
+        // this method instantiates a window with our application name
 
         mainWindow = new MainWindow (getApplicationName());
     }
 
     void shutdown() override
     {
-        // Add your application's shutdown code here..
+        // shutdown code to avoid memory leaks
 
         mainWindow = nullptr; // (deletes our window)
     }
 
     void systemRequestedQuit() override
     {
-        // This is called when the app is being asked to quit: you can ignore this
-        // request and let the app carry on running, or call quit() to allow the app to close.
         quit();
     }
 
     void anotherInstanceStarted (const String& commandLine) override
     {
-        // When another instance of the app is launched while this one is running,
-        // this method is invoked, and the commandLine parameter tells you what
-        // the other instance's command-line arguments were.
+		// because this is a pure virtual function we are required to handle an override
+		// but! since we don't need to account for this case, we're leaving it blank
     }
 
     /*

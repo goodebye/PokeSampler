@@ -3,10 +3,20 @@
 
 #include "SamplerComponent.h"
 
+/*
+	Our SamplerComponent holds our sampler audio source as well as
+	displays vital information about the sample.
+*/
+
 SamplerComponent::SamplerComponent ()
 {
     //[Constructor_pre]
 	synth = samplerSource.getSynth();
+	addAndMakeVisible(chooseFileButton);
+	chooseFileButton.setButtonText("SELECT FILE");
+	chooseFileButton.setColour(Label::backgroundColourId, Colours::magenta);
+	chooseFileButton.setColour(Label::textColourId, Colours::black);
+	chooseFileButton.addListener(this);
     //[/Constructor_pre]
 
     //[UserPreSize]
@@ -33,12 +43,41 @@ SamplerAudioSource* SamplerComponent::getAudioSource() {
 
 void SamplerComponent::noteOn(Note note)
 {
+	// send noteOn message to our synth
 	synth->noteOn(1, note.getMidiNote(), note.getVelocity());
 }
 
 void SamplerComponent::noteOff(Note note)
 {
-	synth->noteOff(1, note.getMidiNote(), 127, false);
+	// send noteOff message to our synth
+	DBG("I RAN");
+
+	synth->noteOff(1, note.getMidiNote(), 0, false);
+}
+
+void SamplerComponent::buttonClicked(Button * button)
+{
+	DBG("I RAN");
+
+	if (button == &chooseFileButton) {
+		File f = getSampleToLoad();
+
+		if (f.existsAsFile()) {
+			samplerSource.setUsingSampleSound(f);
+		}
+	}
+}
+
+File SamplerComponent::getSampleToLoad() {
+	FileChooser sampleChooser("choose the sample you want to load!",
+		File::getSpecialLocation(File::userHomeDirectory),
+		"*.wav");
+	DBG("I RAN TOO");
+	if (sampleChooser.browseForFileToOpen())
+	{
+		File f = sampleChooser.getResult();
+		return f;
+	}
 }
 
 void SamplerComponent::paint (Graphics& g)
@@ -47,9 +86,6 @@ void SamplerComponent::paint (Graphics& g)
     //[/UserPrePaint]
 
     g.fillAll (Colours::skyblue);
-
-	Note testNote(60);
-	//noteOn(testNote);
 
     //[UserPaint]
     //[/UserPaint]
@@ -61,6 +97,7 @@ void SamplerComponent::resized()
     //[/UserPreResize]
 
     //[UserResized] 
+	chooseFileButton.setBounds(0 + 15, 0 + 15, getWidth() / 15, getWidth() / 25);
     //[/UserResized]
 }
 #if 0

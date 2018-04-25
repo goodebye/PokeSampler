@@ -3,6 +3,12 @@
 
 #include "ChannelComponent.h"
 
+/*
+	Our ChannelComponent seems pretty bare bones but it's an important structural
+	tentpole: the ChannelComponent holds our Sampler and Sequencer components, and handles
+	messages between the two.
+*/
+
 ChannelComponent::ChannelComponent ()
 {
     //[Constructor_pre]
@@ -31,6 +37,8 @@ ChannelComponent::~ChannelComponent()
 
 void ChannelComponent::computePadding()
 {
+	// computes padding for the subcomponents of our channel
+
 	SequencerPadding sp = SequencerPadding();
 	sp.padX = getWidth() / padFactor;
 	sp.padY = sp.padX;
@@ -39,13 +47,23 @@ void ChannelComponent::computePadding()
 
 void ChannelComponent::actionListenerCallback(const String & message)
 {
-	Step s = sequencer.trigger();
-	int noteValue = random.nextInt(10) + 50;
-	Note testNote = Note(noteValue);
-	samplerComponent.noteOff(Note(noteToTurnOff));
-	samplerComponent.noteOn(testNote);
-	//samplerComponent.noteOff(Note(noteToTurnOff));
-	noteToTurnOff = noteValue;
+	// this method sends a trigger to our sequencer and asks for the Step
+	// so we can send it over to the Sampler.
+
+	std::pair<Note*, Note*> notes = sequencer.trigger();
+	DBG("TICKED!");
+	if (notes.first != nullptr) {
+		DBG("note on: " << notes.first->getMidiNote());
+
+		Note n = Note(notes.first->getMidiNote());
+		samplerComponent.noteOn(n);
+	}
+	if (notes.second != nullptr) {
+		DBG("note off:" << notes.second->getMidiNote());
+		Note n = Note(notes.second->getMidiNote());
+		samplerComponent.noteOff(n);
+	}
+	samplerComponent.repaint();
 }
 
 SamplerComponent * ChannelComponent::getSamplerComponent()
@@ -70,6 +88,7 @@ void ChannelComponent::resized()
 	//[/UserPreResize]
 
     //[UserResized]
+	// Sets padding, size, and bounds for our subcomponents every time the component is resized
 	computePadding();
 	sequencer.setBounds(0 + padding.padX, getHeight() / 2 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 2 - padding.padY * 2);
 	samplerComponent.setBounds(0 + padding.padX, 0 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 2 - padding.padY * 2);

@@ -1,11 +1,6 @@
 /*
-  ==============================================================================
-
-    BeatTimer.cpp
-    Created: 21 Apr 2018 2:57:12am
-    Author:  goode bye
-
-  ==============================================================================
+	This file is the implementation of BeatTimer, a subclass of Timer. 
+	This allows us to keep time in our sequencer.
 */
 
 #include "BeatTimer.h"
@@ -17,16 +12,20 @@ void BeatTimer::setBPM(float _bpm)
 
 void BeatTimer::startTimerByBPM()
 {
+	// converts our BPM to millis, which is what a Timer expects
 	int millis = bpmToMilliseconds(bpm);
 	startTimer(millis);
 }
 
-void BeatTimer::timerCallback() 
+void BeatTimer::hiResTimerCallback() 
 {
-	sendActionMessage("great! fantastic!");
+	// this is an action message passed to listeners of our timer,
+	// to distinguish them from other events
+	sendActionMessage("BEAT SENT");
 }
 
-int BeatTimer::bpmToMilliseconds(float bpm)
+int BeatTimer::bpmToMilliseconds(float _bpm)
 {
-	return floor(60000 / bpm);
+	// converts bpm to milliseconds
+	return floor(60000 / _bpm);
 }

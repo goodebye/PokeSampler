@@ -5,12 +5,15 @@
 
 class Step {
 public:
-	bool isEmpty();
-	void setNoteOn(Note n);
-	void setNoteOff(Note n);
+	Step();
+	Step(Note n, int duration);
+	void setNoteOn(Note n, int _stepsUntilNoteOff);
 	Note getNoteOn();
-	Note getNoteOff();
+	int getStepsUntilNoteOff();
+	void setStepsUntilNoteOff(int _stepsUntilNoteOff);
+	bool isEmpty();
 private:
 	Note *noteOn = nullptr;
-	Note *noteOff = nullptr;
+	bool empty = true;
+	int stepsUntilNoteOff = 0;
 };

@@ -2,27 +2,33 @@
 
 #include "Step.h"
 
-void Step::setNoteOn(Note n) {
-	noteOn = &n;
+Step::Step() {}
+
+Step::Step(Note n, int duration) {
+	setNoteOn(n, duration);
 }
 
-void Step::setNoteOff(Note n) {
+void Step::setNoteOn(Note n, int _stepsUntilNoteOff) {
 	noteOn = &n;
+	setStepsUntilNoteOff(_stepsUntilNoteOff);
+	empty = false;
 }
 
 Note Step::getNoteOn() {
 	return *noteOn;
 }
 
-Note Step::getNoteOff() {
-	return *noteOff;
+int Step::getStepsUntilNoteOff() {
+	return stepsUntilNoteOff;
+}
+
+void Step::setStepsUntilNoteOff(int _stepsUntilNoteOff) {
+	stepsUntilNoteOff = _stepsUntilNoteOff;
 }
 
 bool Step::isEmpty() {
-	if (noteOn == nullptr) {
+	if (empty) {
 		return true;
 	}
-	else {
-		return false;
-	}
+	return false;
 }

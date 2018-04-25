@@ -3,14 +3,18 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "SequencerComponent.h"
 
-class BeatTimer : public Timer, public ActionBroadcaster {
+/* 
+	this is the header for our BeatTimer class, a subclass of both
+	TImer and ActionBroadcaster, for sending and receiving Actions
+*/
+
+class BeatTimer : public HighResolutionTimer, public ActionBroadcaster {
 	public: 
-		void setBPM(float bpm);
+		void setBPM(float _bpm);
 		void startTimerByBPM();
-		void timerCallback() override;
-		int bpmToMilliseconds(float bpm);
+		void hiResTimerCallback() override;
+		int bpmToMilliseconds(float _bpm);
 
-	private:
-
+private:
 		float bpm;
 };

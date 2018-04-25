@@ -3,6 +3,7 @@
 //[Headers]
 #include "../JuceLibraryCode/JuceHeader.h"
 #include <vector>
+#include <utility>
 #include "StepComponent.h"
 #include "Pattern.h"
 #include "Step.h"
@@ -27,7 +28,7 @@ public:
 	void paint(Graphics& g) override;
 	void resized() override;
 	void visibilityChanged() override;
-	Step trigger();
+	std::pair<Note*, Note*> trigger();
 	void activateStepComponent(int stepNum);
 	void deactivateStepComponent(int stepNum);
 	int previousStepNumber();
@@ -41,6 +42,7 @@ private:
 	OwnedArray<StepComponent> stepComponents;
 	const int rows = 2;
 	int currentStepNumber = 0;
+	Random random;
     //[/UserVariables]
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SequencerComponent)

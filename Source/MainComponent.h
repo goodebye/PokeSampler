@@ -25,7 +25,7 @@ private:
 	std::vector<SamplerAudioSource*> samplerAudioSources;
 	MixerAudioSource mixer;
 	int currentChannel = 0;
-	int numberOfChannels = 8;
+	int numberOfChannels = 2;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)
 };

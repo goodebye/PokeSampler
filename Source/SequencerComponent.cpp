@@ -4,30 +4,41 @@
 //[/Headers]
 
 #include "SequencerComponent.h"
+#include <utility>
 
 SequencerComponent::SequencerComponent ()
 {
     //[Constructor_pre]
+	// we initialize our pattern to empty Steps
 	pattern.initializePattern();
 
-	int stepNum = 0;
-
-	for (Step step : pattern.getSteps()) {
+	// for each of the steps...
+	for (int stepNum = 0; stepNum < 16; stepNum++) {
+		
 		DBG("NEW STEP CREATED");
+
 		if (stepNum % 2 == 0) {
-			step.setNoteOn(Note(60));
+			int noteValue = random.nextInt(20) + 64;
+
+			Step* newStep = new Step(Note(noteValue), 1);
+			pattern.addStep(stepNum, newStep);
 		}
 		else {
-			step.setNoteOff(Note(60));
+			pattern.addStep(stepNum, new Step());
 		}
+
+		// create new step component
 		StepComponent* sc = new StepComponent();
+
+		// set our step number for display
 		sc->setStepNumber(stepNum);
-		sc->setStep(&step);
+		// add reference to step to our StepComponent
+		sc->setStep(pattern.getStep(stepNum));
 
+		// add stepComponent to our container of components for later reference
 		stepComponents.add(sc);
+		// add as child and display
 		addAndMakeVisible(sc);
-
-		stepNum++;
 	}
     //[/Constructor_pre]
 
@@ -63,15 +74,21 @@ void SequencerComponent::resized() {
     //[UserPreResize] 
     //[/UserPreResize]
 
-    //[UserResized] 
+    //[UserResized]
 	if (isVisible()) {
+
+		// since we're splitting our steps across multiple rows,
+		// this is robust code for calculating position based on 
+		// arbitrary rows, columns, and so on.
+
 		int stepsPerRow = pattern.getNumberOfSteps() / rows;
 		int w = getWidth() / stepsPerRow;
 		int h = getHeight() / rows;
 		int padding = getWidth() / 30;
 
 		int stepNum = 0;
-
+		
+		// for each step component...
 		for (Component* sc : stepComponents) {
 			int row = floor(stepNum / stepsPerRow);
 			int col = stepNum % stepsPerRow;
@@ -93,16 +110,17 @@ void SequencerComponent::resized() {
 
 void SequencerComponent::visibilityChanged()
 {
-	resized();
+	repaint();
 }
 
-Step SequencerComponent::trigger()
+std::pair<Note*, Note*> SequencerComponent::trigger()
 {
+	int stepToPlay = currentStepNumber;
 	activateStepComponent(currentStepNumber);
 	deactivateStepComponent(previousStepNumber());
 	currentStepNumber = nextStepNumber();
-	repaint();
-	return Step();
+	//repaint();
+	return pattern.noteEventsAtStep(stepToPlay);
 }
 
 void SequencerComponent::activateStepComponent(int stepNumber)
