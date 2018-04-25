@@ -14,16 +14,6 @@ SequencerComponent::SequencerComponent ()
 
 	// for each of the steps...
 	for (int stepNum = 0; stepNum < 16; stepNum++) {
-		if (stepNum % 2 == 0) {
-			int noteValue = random.nextInt(20) + 64;
-
-			Step* newStep = new Step(Note(noteValue), 1);
-			pattern.addStep(stepNum, newStep);
-		}
-		else {
-			pattern.addStep(stepNum, new Step());
-		}
-
 		// create new step component
 		StepComponent* sc = new StepComponent();
 
