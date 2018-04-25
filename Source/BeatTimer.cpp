@@ -26,6 +26,6 @@ void BeatTimer::hiResTimerCallback()
 
 int BeatTimer::bpmToMilliseconds(float _bpm)
 {
-	// converts bpm to milliseconds
-	return floor(60000 / _bpm);
+	// converts bpm to milliseconds and set to quarter notes
+	return floor(60000 / _bpm) / 2;
 }
