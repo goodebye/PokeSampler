@@ -73,7 +73,7 @@ MainComponent::MainComponent()
 	}
 
 	// initialize our beatTimer with a default BPM of 120 (common value) and start it
-	beatTimer.setBPM(80.0);
+	beatTimer.setBPM(120);
 	beatTimer.startTimerByBPM();
 	beatTimer.addActionListener(this);
 
@@ -119,6 +119,7 @@ void MainComponent::paint (Graphics& g)
 void MainComponent::actionListenerCallback(const String &message) {
 	if (recording) {
 		recordingNote->duration = recordingNote->duration + 1;
+		lastBeatTime = Time::currentTimeMillis();
 	}
 }
 
@@ -206,6 +207,19 @@ void MainComponent::buttonClicked(Button * button) {
 }
 
 void MainComponent::setActiveChannel(int channelNumber) {
+
+	if (recording) {
+		if (!recordingNote->noData) {
+			getActiveChannel()->midiNoteOff(Note(recordingNote->note->getMidiNote()));
+			getActiveChannel()->addStepToSequencer(recordingNote->startStep,
+				Note(recordingNote->note->getMidiNote()), recordingNote->duration);
+		}
+		else {
+			recordingNote = new RecordingNote();
+		}
+
+		recording = false;
+	}
 	channels[currentChannel]->setVisible(false);
 	currentChannel = channelNumber;
 	channels[currentChannel]->setVisible(true);
@@ -238,7 +252,13 @@ void MainComponent::handleIncomingMidiMessage(MidiInput * source, const MidiMess
 
 		if (noteIsOnKeyboard(noteNumber)) {
 			if (recording) {
-				int stepToPlace = Util::wrappingModulo(getActiveChannel()->getCurrentStepFromSequencer() - 1,
+				int64 delta = Time::currentTimeMillis() - lastBeatTime;
+				int offset = 0;
+
+				if (delta < beatTimer.getTimerInterval() / 3 * 2) {
+					offset = 1;
+				}
+				int stepToPlace = Util::wrappingModulo(getActiveChannel()->getCurrentStepFromSequencer() - offset,
 					getActiveChannel()->getSequencerComponent()->getNumberOfSteps());
 				getActiveChannel()->midiNoteOn(Note(message.getNoteNumber()));
 				recordingNote = new RecordingNote(new Note(message.getNoteNumber()), 0, stepToPlace);
@@ -269,11 +289,19 @@ void MainComponent::handleIncomingMidiMessage(MidiInput * source, const MidiMess
 		if (noteIsOnKeyboard(noteNumber)) {
 			// then we are either changing which channel is active or we are stopping/starting/recording
 			if (recording) {
-				if (recordingNote->duration > 0) {
+
+				int64 delta = Time::currentTimeMillis() - lastBeatTime;
+				int offset = 0;
+
+				if (recordingNote->duration == 0) {
+					recordingNote->duration = 1;
+				}
+				else if (delta < beatTimer.getTimerInterval() && recordingNote->duration != 0) {
+					offset = 1;
+				}
 					getActiveChannel()->midiNoteOff(Note(message.getNoteNumber()));
 					getActiveChannel()->addStepToSequencer(recordingNote->startStep,
 						Note(recordingNote->note->getMidiNote()), recordingNote->duration);
-				}
 			}
 			getActiveChannel()->midiNoteOff(Note(message.getNoteNumber()));
 			return;

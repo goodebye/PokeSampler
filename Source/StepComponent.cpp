@@ -91,6 +91,9 @@ void StepComponent::paint (Graphics& g)
 			stepButton.setButtonText("DUR: " + std::to_string(step->getStepsUntilNoteOff()) + "\n"
 				+ "NOTE: " + std::to_string(step->getNoteOn().getMidiNote()));
 		}
+		else {
+			stepButton.setButtonText("");
+		}
 
     //[/UserPaint]
 }

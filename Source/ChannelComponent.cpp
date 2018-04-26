@@ -57,16 +57,17 @@ void ChannelComponent::actionListenerCallback(const String & message)
 
 	std::pair<Note*, Note*> notes = sequencer.trigger();
 
+	if (notes.second != nullptr) {
+		DBG("note off:" << notes.second->getMidiNote());
+		Note n = Note(notes.second->getMidiNote());
+		samplerComponent.noteOff(n);
+	}
+
 	if (notes.first != nullptr) {
 		DBG("note on: " << notes.first->getMidiNote());
 
 		Note n = Note(notes.first->getMidiNote());
 		samplerComponent.noteOn(n);
-	}
-	if (notes.second != nullptr) {
-		DBG("note off:" << notes.second->getMidiNote());
-		Note n = Note(notes.second->getMidiNote());
-		samplerComponent.noteOff(n);
 	}
 	samplerComponent.repaint();
 }

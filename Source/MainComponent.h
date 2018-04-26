@@ -68,6 +68,7 @@ private:
 	void stopPlaying();
 	bool recording = false;
 	RecordingNote* recordingNote = new RecordingNote();
+	int64 lastBeatTime;
 	
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainComponent)

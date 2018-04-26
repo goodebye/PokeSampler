@@ -27,7 +27,6 @@ public:
 	void setHighlight(bool on);
 	void setStep(Step *_step);
 	void setStepNumber(int _stepNum);
-	void mouseDown(const MouseEvent & me) override;
 	void buttonClicked(Button * button) override;
 	void storePatternReference(Pattern * p);
 
