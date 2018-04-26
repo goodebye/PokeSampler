@@ -58,18 +58,14 @@ void ChannelComponent::actionListenerCallback(const String & message)
 	std::pair<Note*, Note*> notes = sequencer.trigger();
 
 	if (notes.second != nullptr) {
-		DBG("note off:" << notes.second->getMidiNote());
 		Note n = Note(notes.second->getMidiNote());
 		samplerComponent.noteOff(n);
 	}
 
 	if (notes.first != nullptr) {
-		DBG("note on: " << notes.first->getMidiNote());
-
 		Note n = Note(notes.first->getMidiNote());
 		samplerComponent.noteOn(n);
 	}
-	samplerComponent.repaint();
 }
 
 void ChannelComponent::midiNoteOn(Note n) {
@@ -116,8 +112,8 @@ void ChannelComponent::resized()
     //[UserResized]
 	// Sets padding, size, and bounds for our subcomponents every time the component is resized
 	computePadding();
-	sequencer.setBounds(0 + padding.padX, getHeight() / 2 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 2 - padding.padY * 2);
-	samplerComponent.setBounds(0 + padding.padX, 0 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 2 - padding.padY * 2);
+	samplerComponent.setBounds(0 + padding.padX, 0 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 3 - padding.padY * 2);
+	sequencer.setBounds(0 + padding.padX, getHeight() / 3 + padding.padY, getWidth() - padding.padX * 2, getHeight() / 3 * 2 - padding.padY * 2);
 
 	DBG(sequencer.getBounds().getX() << ", " << sequencer.getBounds().getY() << "\n");
     //[/UserResized]

@@ -10,7 +10,7 @@
 #include "Util.h"
 
 class MainComponent   : public AudioAppComponent, Button::Listener, MidiInputCallback,
-							MidiKeyboardStateListener, ActionListener
+							MidiKeyboardStateListener, ActionListener, Slider::Listener
 {
 public:
     MainComponent();
@@ -20,6 +20,7 @@ public:
     void getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill) override;
     void releaseResources() override;
 	void buttonClicked(Button* button) override;
+	void sliderValueChanged(Slider* slider) override;
 	void setActiveChannel(int channelNumber);
 	ChannelComponent* getActiveChannel();
 	void handleIncomingMidiMessage(MidiInput* source, const MidiMessage& message) override;
@@ -52,6 +53,8 @@ private:
 	BeatTimer beatTimer;
 	OwnedArray<ChannelComponent> channels;
 	OwnedArray<TextButton> channelSelectorButtons;
+	TextButton playButton;
+	TextButton recordButton;
 	std::vector<SamplerAudioSource*> samplerAudioSources;
 	MixerAudioSource mixer;
 	int currentChannel = 0;
@@ -64,10 +67,13 @@ private:
 	void beginRecording();
 	void stopRecording();
 	void togglePlaying();
+	bool isPlaying();
 	void startPlaying();
 	void stopPlaying();
 	bool recording = false;
 	RecordingNote* recordingNote = new RecordingNote();
+	Slider bpmDial;
+	Slider reverbDial;
 	int64 lastBeatTime;
 	
 

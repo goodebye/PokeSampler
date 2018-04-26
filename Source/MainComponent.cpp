@@ -77,7 +77,28 @@ MainComponent::MainComponent()
 	beatTimer.startTimerByBPM();
 	beatTimer.addActionListener(this);
 
-    setSize (1280, 720);
+	// initialize our buttons and sliders
+	recordButton.setButtonText("RECORD");
+	recordButton.addListener(this);
+	recordButton.setColour(TextButton::buttonColourId, Colours::grey);
+	addAndMakeVisible(recordButton);
+
+	playButton.setButtonText("PLAY");
+	playButton.setColour(TextButton::buttonColourId, Colours::green);
+	playButton.addListener(this);
+	addAndMakeVisible(playButton);
+
+	bpmDial.setRange(20, 160);          
+	bpmDial.setTextValueSuffix(" BPM");
+	bpmDial.setSliderStyle(Slider::SliderStyle::Rotary);
+	bpmDial.addListener(this);
+	bpmDial.setTextBoxStyle(Slider::TextBoxBelow, false, getWidth() / 30, getWidth() / 8);
+	bpmDial.setNumDecimalPlacesToDisplay(0);
+	bpmDial.setValue(beatTimer.getBpm());
+	addAndMakeVisible(bpmDial);
+
+
+    setSize (1280, 560);
 
     // how many channels our device has (2 by default)
 	setAudioChannels(2, 2);
@@ -129,7 +150,7 @@ void MainComponent::resized()
 	for (ChannelComponent *c : channels) {
 		// when the parent component is resized, we need to tell the subcomponents
 		// to recalculate their bounds as well
-		c->setBounds(0, getHeight() / 40, getWidth(), getHeight() - getHeight() / 30);
+		c->setBounds(0, getHeight() / 20, getWidth(), getHeight() - getHeight() / 30);
 	}
 
 	int buttonNumber = 0;
@@ -137,9 +158,14 @@ void MainComponent::resized()
 
 	for (Button* button : channelSelectorButtons) {
 		button->setBounds(getWidth() / numberOfButtons * buttonNumber, 0, 
-			getWidth() / numberOfButtons, getHeight() / 30);
+			getWidth() / numberOfButtons, getHeight() / 20);
 		buttonNumber++;
 	}
+
+	playButton.setBounds(getWidth() - getWidth() / 8, getHeight() / 8, getWidth() / 16, getHeight() / 16);
+	recordButton.setBounds(getWidth() - getWidth() / 8, getHeight() / 8 * 2 - getHeight() / 25, getWidth() / 16, getHeight() / 16);
+	bpmDial.setBounds(getWidth() - getWidth() / 4, getHeight() / 8, getWidth() / 12, getWidth() / 12);
+	bpmDial.setTextBoxStyle(Slider::TextBoxBelow, false, getWidth() / 20, getHeight() / 20);
 }
 
 int MainComponent::noteNumberToChannel(int noteNumber)
@@ -157,11 +183,15 @@ void MainComponent::toggleRecording() {
 }
 
 void MainComponent::beginRecording() {
+	const MessageManagerLock mmLock;
 	recording = true;
+	recordButton.setColour(TextButton::buttonColourId, Colours::red);
 	startPlaying();
 }
 
 void MainComponent::stopRecording() {
+	const MessageManagerLock mmLock;
+	recordButton.setColour(TextButton::buttonColourId, Colours::grey);
 	recording = false;
 }
 
@@ -174,8 +204,19 @@ void MainComponent::togglePlaying() {
 	}
 }
 
+bool MainComponent::isPlaying() {
+	if (beatTimer.isTimerRunning()) {
+		return true;
+	}
+	return false;
+}
+
 void MainComponent::startPlaying() {
+	const MessageManagerLock mmLock;
+
 	if (!beatTimer.isTimerRunning()) {
+		playButton.setColour(TextButton::buttonColourId, Colours::green);
+
 		beatTimer.startTimerByBPM();
 	}
 }
@@ -190,6 +231,8 @@ void MainComponent::stopPlaying() {
 		beatTimer.stopTimer();
 	}
 
+	playButton.setColour(TextButton::buttonColourId, Colours::grey);
+
 	if (recording) {
 		stopRecording();
 	}
@@ -201,8 +244,26 @@ void MainComponent::buttonClicked(Button * button) {
 	for (Button* b : channelSelectorButtons) {
 		if (b == button) {
 			setActiveChannel(channel);
+			return;
 		}
 		channel++;
+	}
+
+	if (&playButton == button) {
+		togglePlaying();
+		return;
+	}
+
+	if (&recordButton == button) {
+		toggleRecording();
+	}
+}
+
+void MainComponent::sliderValueChanged(Slider * slider)
+{
+	if (slider == &bpmDial) {
+		beatTimer.setBPM(floor(bpmDial.getValue()));
+		beatTimer.startTimerByBPM();
 	}
 }
 
@@ -217,7 +278,7 @@ void MainComponent::setActiveChannel(int channelNumber) {
 		else {
 			recordingNote = new RecordingNote();
 		}
-
+		recordButton.setColour(TextButton::buttonColourId, Colours::grey);
 		recording = false;
 	}
 	channels[currentChannel]->setVisible(false);
@@ -281,7 +342,6 @@ void MainComponent::handleIncomingMidiMessage(MidiInput * source, const MidiMess
 				setActiveChannel(noteNumberToChannel(noteNumber));
 			}
 		}
-		DBG(" note on: " << message.getNoteNumber());
 	}
 	if (message.isNoteOff()) {
 		int noteNumber = message.getNoteNumber();

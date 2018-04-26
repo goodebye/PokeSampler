@@ -17,7 +17,6 @@ public:
 	void noteOn(Note note);
 	void noteOff(Note note);
 	void buttonClicked(Button* button) override;
-	File getSampleToLoad();
 	void reset();
     //[/UserMethods]
 
@@ -30,6 +29,8 @@ private:
 	TextButton chooseFileButton;
 	Random random;
 	SamplerAudioSource samplerSource;
+	AudioFormatManager formatManager;
+	// AudioThumbnail thumbnail;
     //[/UserVariables]    
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SamplerComponent)

@@ -35,7 +35,7 @@ public:
 		synth.clearVoices();
 		synth.clearSounds();
 		synth.addSound(new SamplerSound(
-			"example sound", *audioReader, allNotes, 45, 0.1, 10.0, 10.0
+			"example sound", *audioReader, allNotes, 45, 0.1, 1, 10.0
 		));
 
 		for (auto i = 0; i < 1; ++i)

@@ -16,6 +16,7 @@ SamplerComponent::SamplerComponent ()
 	chooseFileButton.setButtonText("SELECT FILE");
 	chooseFileButton.setColour(TextButton::buttonColourId, Colours::black);
 	chooseFileButton.addListener(this);
+	formatManager.registerBasicFormats();
     //[/Constructor_pre]
 
     //[UserPreSize]
@@ -49,34 +50,27 @@ void SamplerComponent::noteOn(Note note)
 void SamplerComponent::noteOff(Note note)
 {
 	// send noteOff message to our synth
-	DBG("I RAN");
-
 	synth->noteOff(1, note.getMidiNote(), 0, true);
 }
 
 void SamplerComponent::buttonClicked(Button * button)
 {
-	DBG("I RAN");
 
 	if (button == &chooseFileButton) {
-		File f = getSampleToLoad();
 
-		if (f.exists()) {
-			DBG("I EXIST");
+		FileChooser sampleChooser("choose the sample you want to load!",
+			File::getSpecialLocation(File::userHomeDirectory),
+			"*.wav");
+
+		if (sampleChooser.browseForFileToOpen())
+		{
+			File f = sampleChooser.getResult();
 			samplerSource.setUsingSampleSound(f);
+			
+			WavAudioFormat wavFormat;
+
+			InputStream* is = f.createInputStream();
 		}
-	}
-}
-
-File SamplerComponent::getSampleToLoad() {
-	FileChooser sampleChooser("choose the sample you want to load!",
-		File::getSpecialLocation(File::userHomeDirectory),
-		"*.wav");
-
-	if (sampleChooser.browseForFileToOpen())
-	{
-		File f = sampleChooser.getResult();
-		return f;
 	}
 }
 

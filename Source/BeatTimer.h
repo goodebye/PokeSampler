@@ -14,6 +14,7 @@ class BeatTimer : public HighResolutionTimer, public ActionBroadcaster {
 		void startTimerByBPM();
 		void hiResTimerCallback() override;
 		int bpmToMilliseconds(float _bpm);
+		float getBpm();
 
 private:
 		float bpm;
