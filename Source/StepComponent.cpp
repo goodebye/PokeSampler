@@ -89,7 +89,7 @@ void StepComponent::paint (Graphics& g)
 		//g.drawRect(0, 0, getWidth(), getHeight());
 		if (!step->isEmpty()) {
 			stepButton.setButtonText("DUR: " + std::to_string(step->getStepsUntilNoteOff()) + "\n"
-				+ "NOTE: " + std::to_string(step->getNoteOn().getMidiNote()));
+				+ "NOTE: " + std::to_string(step->getNoteOn()->getMidiNote()));
 		}
 		else {
 			stepButton.setButtonText("");
@@ -105,7 +105,7 @@ void StepComponent::storePatternReference(Pattern* p) {
 void StepComponent::buttonClicked(Button * button)
 {
 	if (step->isEmpty()) {
-		pattern->addStep(stepNumber, new Step(Note(random.nextInt(10) + 60), 1));
+		pattern->addStep(stepNumber, new Step(new Note(random.nextInt(10) + 60), 1));
 	}
 	else {
 		pattern->clearStep(stepNumber);

@@ -33,11 +33,11 @@ void Pattern::addStep(int index, Step* step)
 	}
 }
 
-void Pattern::addNoteOn(int index, Note n) {
+void Pattern::addNoteOn(int index, Note* n) {
 	notesOn.insert({ index, n });
 }
 
-void Pattern::addNoteOff(int index, Note n) {
+void Pattern::addNoteOff(int index, Note* n) {
 	notesOff.insert({ index, n });
 }
 
@@ -57,14 +57,14 @@ bool Pattern::noteOnExists(int index) {
 
 Note* Pattern::getNoteOff(int index) {
 	if (noteOffExists(index)) {
-		return &notesOff[index];
+		return notesOff[index];
 	}
 	return nullptr;
 }
 
 Note* Pattern::getNoteOn(int index) {
 	if (noteOnExists(index)) {
-		return &notesOn[index];
+		return notesOn[index];
 	}
 	return nullptr;
 }

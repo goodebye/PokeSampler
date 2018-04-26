@@ -43,7 +43,7 @@ SamplerAudioSource* SamplerComponent::getAudioSource() {
 void SamplerComponent::noteOn(Note note)
 {
 	// send noteOn message to our synth
-	synth->noteOn(1, note.getMidiNote(), note.getVelocity());
+	synth->noteOn(1, note.getMidiNote(), 1);
 }
 
 void SamplerComponent::noteOff(Note note)
@@ -51,7 +51,7 @@ void SamplerComponent::noteOff(Note note)
 	// send noteOff message to our synth
 	DBG("I RAN");
 
-	synth->noteOff(1, note.getMidiNote(), 0, false);
+	synth->noteOff(1, note.getMidiNote(), 0, true);
 }
 
 void SamplerComponent::buttonClicked(Button * button)

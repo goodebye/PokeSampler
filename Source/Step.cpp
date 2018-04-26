@@ -4,24 +4,20 @@
 
 Step::Step() {}
 
-Step::Step(Note n, int duration) {
+Step::Step(Note* n, int duration) {
+	Note newNote = Note(n->getMidiNote());
 	setNoteOn(n, duration);
 }
 
-Step::Step(Note* n, int duration) {
-	Note newNote = Note(n->getMidiNote());
-	setNoteOn(newNote, duration);
-}
 
-
-void Step::setNoteOn(Note n, int _stepsUntilNoteOff) {
-	noteOn = &n;
+void Step::setNoteOn(Note* n, int _stepsUntilNoteOff) {
+	noteOn = n;
 	setStepsUntilNoteOff(_stepsUntilNoteOff);
 	empty = false;
 }
 
-Note Step::getNoteOn() {
-	return *noteOn;
+Note* Step::getNoteOn() {
+	return noteOn;
 }
 
 int Step::getStepsUntilNoteOff() {

@@ -140,7 +140,8 @@ void SequencerComponent::deactivateStepComponent(int stepNumber)
 }
 
 void SequencerComponent::addRecordedStep(int startStepNumber, Note n, int duration) {
-	pattern.addStep(startStepNumber, new Step(n, duration));
+	Note* newNote = new Note(n.getMidiNote());
+	pattern.addStep(startStepNumber, new Step(newNote, duration));
 }
 
 int SequencerComponent::previousStepNumber() 
