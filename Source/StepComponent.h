@@ -15,7 +15,7 @@
 	whether or not it is playing, or empty, or whathaveyou.
                                                                     //[/Comments]
 */
-class StepComponent  : public Component
+class StepComponent  : public Component, Button::Listener
 {
 public:
         StepComponent ();
@@ -28,10 +28,12 @@ public:
 	void setStep(Step *_step);
 	void setStepNumber(int _stepNum);
 	void mouseDown(const MouseEvent & me) override;
+	void buttonClicked(Button * button) override;
+	void storePatternReference(Pattern * p);
+
     //[/UserMethods]
 
     void paint (Graphics& g) override;
-	void storePatternReference(Pattern * p);
     void resized() override;
 
 private:
@@ -41,6 +43,7 @@ private:
 	Step* step = nullptr;
 	Pattern* pattern = nullptr;
 	int stepNumber = 0;
+	TextButton stepButton;
 	//[/UserVariables]
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (StepComponent)

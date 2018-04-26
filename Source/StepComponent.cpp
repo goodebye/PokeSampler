@@ -6,6 +6,8 @@
 StepComponent::StepComponent ()
 {
     //[Constructor_pre] 
+	addAndMakeVisible(stepButton);
+	stepButton.addListener(this);
     //[/Constructor_pre]
     //[UserPreSize]
     //[/UserPreSize]
@@ -60,12 +62,15 @@ void StepComponent::paint (Graphics& g)
 
     //[UserPaint]
 		Colour fillColor = Colours::white;
+		Colour textColor = Colours::black;
 		if (highlighted) {
 			if (step->isEmpty()) {
 				fillColor = Colours::dimgrey;
+				textColor = Colours::black;
 			}
 			else {
 				fillColor = Colours::black;
+				textColor = Colours::white;
 			}
 		}
 		else if (!(step->isEmpty())) {
@@ -73,11 +78,20 @@ void StepComponent::paint (Graphics& g)
 			fillColor = Colours::skyblue;
 		}
 
-		g.fillAll(fillColor);
+		stepButton.setColour(TextButton::buttonColourId, fillColor);
+		stepButton.setColour(TextButton::textColourOnId, textColor);
+		stepButton.setColour(TextButton::textColourOffId, textColor);
 
-		g.setColour(Colours::black);
+		g.fillAll(Colours::green);
 
-		g.drawRect(0, 0, getWidth(), getHeight());
+		//g.setColour(Colours::black);
+
+		//g.drawRect(0, 0, getWidth(), getHeight());
+		if (!step->isEmpty()) {
+			stepButton.setButtonText("DUR: " + std::to_string(step->getStepsUntilNoteOff()) + "\n"
+				+ "NOTE: " + std::to_string(step->getNoteOn().getMidiNote()));
+		}
+
     //[/UserPaint]
 }
 
@@ -85,15 +99,15 @@ void StepComponent::storePatternReference(Pattern* p) {
 	pattern = p;
 }
 
-void StepComponent::mouseDown(const MouseEvent& me) {
-	if (me.mods.isRightButtonDown()) {
-		// remove the step
-		pattern->clearStep(stepNumber);
-	}
-	else if (me.mods.isLeftButtonDown()) {
-		// add step
+void StepComponent::buttonClicked(Button * button)
+{
+	if (step->isEmpty()) {
 		pattern->addStep(stepNumber, new Step(Note(random.nextInt(10) + 60), 1));
 	}
+	else {
+		pattern->clearStep(stepNumber);
+	}
+	DBG("ive been cliked");
 	repaint();
 }
 
@@ -102,6 +116,7 @@ void StepComponent::resized()
     //[UserPreResize] 
     //[/UserPreResize]
     //[UserResized] 
+	stepButton.setBounds(0, 0, getWidth(), getHeight());
     //[/UserResized]
 }
 

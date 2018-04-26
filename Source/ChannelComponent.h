@@ -25,7 +25,13 @@ public:
     //[UserMethods]
 	void computePadding();
 	void actionListenerCallback(const String &message) override;
+	void midiNoteOn(Note n);
+	void midiNoteOff(Note n);
+	void addStepToSequencer(int startStepNumber, Note n, int duration);
+	int getCurrentStepFromSequencer();
+	void restartSequencer();
 	SamplerComponent* getSamplerComponent();
+	SequencerComponent * getSequencerComponent();
     //[/UserMethods]
 
     void paint (Graphics& g) override;

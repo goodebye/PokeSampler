@@ -45,13 +45,18 @@ void ChannelComponent::computePadding()
 	padding = sp;
 }
 
+void ChannelComponent::restartSequencer() {
+	samplerComponent.reset();
+	sequencer.reset();
+}
+
 void ChannelComponent::actionListenerCallback(const String & message)
 {
 	// this method sends a trigger to our sequencer and asks for the Step
 	// so we can send it over to the Sampler.
 
 	std::pair<Note*, Note*> notes = sequencer.trigger();
-	DBG("TICKED!");
+
 	if (notes.first != nullptr) {
 		DBG("note on: " << notes.first->getMidiNote());
 
@@ -66,9 +71,29 @@ void ChannelComponent::actionListenerCallback(const String & message)
 	samplerComponent.repaint();
 }
 
+void ChannelComponent::midiNoteOn(Note n) {
+	samplerComponent.noteOn(n);
+}
+
+void ChannelComponent::midiNoteOff(Note n) {
+	samplerComponent.noteOff(n);
+}
+
+void ChannelComponent::addStepToSequencer(int startStepNumber, Note n, int duration) {
+	sequencer.addRecordedStep(startStepNumber, n, duration);
+}
+
+int ChannelComponent::getCurrentStepFromSequencer() {
+	return sequencer.getCurrentStep();
+}
+
 SamplerComponent * ChannelComponent::getSamplerComponent()
 {
 	return &samplerComponent;
+}
+
+SequencerComponent * ChannelComponent::getSequencerComponent() {
+	return &sequencer;
 }
 
 void ChannelComponent::paint (Graphics& g)

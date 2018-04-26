@@ -29,8 +29,12 @@ public:
 	void resized() override;
 	void visibilityChanged() override;
 	std::pair<Note*, Note*> trigger();
+	void reset();
 	void activateStepComponent(int stepNum);
+	int getCurrentStep();
+	int getNumberOfSteps();
 	void deactivateStepComponent(int stepNum);
+	void addRecordedStep(int startStepNumber, Note n, int duration);
 	int previousStepNumber();
 	int nextStepNumber();
 

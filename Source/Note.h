@@ -12,7 +12,7 @@ class Note {
 public:
 	Note(int _midiNote) {
 		midiNote = _midiNote;
-		velocity = 127;
+		velocity = defaultVelocity;
 		empty = false;
 	}
 
@@ -43,7 +43,7 @@ public:
 
 private:
 	int midiNote = -1;
-	int velocity = 127;
+	int velocity = 80;
 	bool empty = true;
-	const int defaultVelocity = 30;
+	const int defaultVelocity = 80;
 };

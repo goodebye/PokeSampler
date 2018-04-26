@@ -70,7 +70,6 @@ endif
 OBJECTS_APP := \
   $(JUCE_OBJDIR)/SamplerComponent_91d4b9de.o \
   $(JUCE_OBJDIR)/Pattern_a0d6f3f1.o \
-  $(JUCE_OBJDIR)/Note_efaaab7b.o \
   $(JUCE_OBJDIR)/Step_e6920555.o \
   $(JUCE_OBJDIR)/StepComponent_a51c4a72.o \
   $(JUCE_OBJDIR)/ChannelComponent_5726acc3.o \
@@ -112,11 +111,6 @@ $(JUCE_OBJDIR)/SamplerComponent_91d4b9de.o: ../../Source/SamplerComponent.cpp
 $(JUCE_OBJDIR)/Pattern_a0d6f3f1.o: ../../Source/Pattern.cpp
 	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
 	@echo "Compiling Pattern.cpp"
-	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
-
-$(JUCE_OBJDIR)/Note_efaaab7b.o: ../../Source/Note.cpp
-	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
-	@echo "Compiling Note.cpp"
 	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_APP) $(JUCE_CFLAGS_APP) -o "$@" -c "$<"
 
 $(JUCE_OBJDIR)/Step_e6920555.o: ../../Source/Step.cpp

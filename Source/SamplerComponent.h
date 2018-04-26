@@ -18,9 +18,11 @@ public:
 	void noteOff(Note note);
 	void buttonClicked(Button* button) override;
 	File getSampleToLoad();
+	void reset();
     //[/UserMethods]
 
-    void paint (Graphics& g) override;
+
+	void paint (Graphics& g) override;
     void resized() override;
 private:
     //[UserVariables]

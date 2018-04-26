@@ -70,7 +70,6 @@ Note* Pattern::getNoteOn(int index) {
 }
 
 std::pair<Note*, Note*> Pattern::noteEventsAtStep(int stepNumber) {
-	DBG("HEY BITCH: ");
 	return std::pair <Note*, Note*> (getNoteOn(stepNumber), getNoteOff(stepNumber));
 }
 

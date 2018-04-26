@@ -21,7 +21,7 @@ void BeatTimer::hiResTimerCallback()
 {
 	// this is an action message passed to listeners of our timer,
 	// to distinguish them from other events
-	sendActionMessage("BEAT SENT");
+	sendActionMessage("BEAT");
 }
 
 int BeatTimer::bpmToMilliseconds(float _bpm)

@@ -106,10 +106,19 @@ std::pair<Note*, Note*> SequencerComponent::trigger()
 {
 	int stepToPlay = currentStepNumber;
 	activateStepComponent(currentStepNumber);
-	deactivateStepComponent(previousStepNumber());
+	for (int stepToDeactivate = 0; stepToDeactivate < stepComponents.size(); stepToDeactivate++) {
+		if (stepToDeactivate != currentStepNumber) {
+			deactivateStepComponent(stepToDeactivate);
+		}
+	}
 	currentStepNumber = nextStepNumber();
 	//repaint();
 	return pattern.noteEventsAtStep(stepToPlay);
+}
+
+void SequencerComponent::reset() {
+	deactivateStepComponent(currentStepNumber);
+	currentStepNumber = 0;
 }
 
 void SequencerComponent::activateStepComponent(int stepNumber)
@@ -117,9 +126,21 @@ void SequencerComponent::activateStepComponent(int stepNumber)
 	stepComponents[stepNumber]->activate();
 }
 
+int SequencerComponent::getCurrentStep() {
+	return currentStepNumber;
+}
+
+int SequencerComponent::getNumberOfSteps() {
+	return pattern.getNumberOfSteps();
+}
+
 void SequencerComponent::deactivateStepComponent(int stepNumber)
 {
 	stepComponents[stepNumber]->deactivate();
+}
+
+void SequencerComponent::addRecordedStep(int startStepNumber, Note n, int duration) {
+	pattern.addStep(startStepNumber, new Step(n, duration));
 }
 
 int SequencerComponent::previousStepNumber() 

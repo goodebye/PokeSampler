@@ -379,9 +379,6 @@
     <ClCompile Include="..\..\Source\Pattern.cpp">
       <Filter>PokeSampler\Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Note.cpp">
-      <Filter>PokeSampler\Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Step.cpp">
       <Filter>PokeSampler\Source</Filter>
     </ClCompile>

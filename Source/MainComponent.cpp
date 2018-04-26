@@ -32,18 +32,50 @@ MainComponent::MainComponent()
 
 		// adds buttons to select channel
 		TextButton* channelButton = new TextButton();
-		channelButton->setButtonText("#" + std::to_string(i));
+		channelButton->setButtonText("#" + std::to_string(i + 1));
 		channelButton->addListener(this);
+
+		if (i == currentChannel) {
+			channelButton->setColour(TextButton::buttonColourId, Colours::white);
+			channelButton->setColour(TextButton::textColourOnId, Colours::black);
+			channelButton->setColour(TextButton::textColourOffId, Colours::black);
+
+		}
+		else {
+			channelButton->setColour(TextButton::buttonColourId, Colours::black);
+			channelButton->setColour(TextButton::textColourOnId, Colours::white);
+			channelButton->setColour(TextButton::textColourOffId, Colours::white);
+		}
+
 		addAndMakeVisible(channelButton);
+
 		channelSelectorButtons.add(channelButton);
 
 		// adds our channel as an input source to our mixer
 		mixer.addInputSource(channels[i]->getSamplerComponent()->getAudioSource(), false);
 	}
 
+	// initialize connected MIDI controllers
+
+	// find all connected MIDI devices
+	auto midiInputs = MidiInput::getDevices();
+	
+
+	for (auto midiInput : midiInputs) {
+		// enable midi device if it isn't already
+		if (!deviceManager.isMidiInputEnabled(midiInput)) {
+			deviceManager.setMidiInputEnabled(midiInput, true);
+		}
+		// add our device to trigger callback
+		deviceManager.addMidiInputCallback(midiInput, this);
+
+		DBG(midiInput << " is now connected");
+	}
+
 	// initialize our beatTimer with a default BPM of 120 (common value) and start it
-	beatTimer.setBPM(120.0);
+	beatTimer.setBPM(80.0);
 	beatTimer.startTimerByBPM();
+	beatTimer.addActionListener(this);
 
     setSize (1280, 720);
 
@@ -84,6 +116,13 @@ void MainComponent::paint (Graphics& g)
     g.fillAll (Colours::black);
 }
 
+void MainComponent::actionListenerCallback(const String &message) {
+	if (recording) {
+		recordingNote->duration = recordingNote->duration + 1;
+	}
+}
+
+
 void MainComponent::resized()
 {
 	for (ChannelComponent *c : channels) {
@@ -102,14 +141,65 @@ void MainComponent::resized()
 	}
 }
 
+int MainComponent::noteNumberToChannel(int noteNumber)
+{
+	return noteNumber - channelKeyStart;
+}
+
+void MainComponent::toggleRecording() {
+	if (recording) {
+		stopRecording();
+	}
+	else {
+		beginRecording();
+	}
+}
+
+void MainComponent::beginRecording() {
+	recording = true;
+	startPlaying();
+}
+
+void MainComponent::stopRecording() {
+	recording = false;
+}
+
+void MainComponent::togglePlaying() {
+	if (beatTimer.isTimerRunning()) {
+		stopPlaying();
+	}
+	else {
+		startPlaying();
+	}
+}
+
+void MainComponent::startPlaying() {
+	if (!beatTimer.isTimerRunning()) {
+		beatTimer.startTimerByBPM();
+	}
+}
+
+void MainComponent::stopPlaying() {
+	const MessageManagerLock mmLock;
+
+	if (beatTimer.isTimerRunning()) {
+		for (ChannelComponent* c : channels) {
+			c->restartSequencer();
+		}
+		beatTimer.stopTimer();
+	}
+
+	if (recording) {
+		stopRecording();
+	}
+}
+
 void MainComponent::buttonClicked(Button * button) {
 	int channel = 0;
 
 	for (Button* b : channelSelectorButtons) {
 		if (b == button) {
-			DBG("switching to channel " + channel);
 			setActiveChannel(channel);
-			return;
 		}
 		channel++;
 	}
@@ -119,4 +209,102 @@ void MainComponent::setActiveChannel(int channelNumber) {
 	channels[currentChannel]->setVisible(false);
 	currentChannel = channelNumber;
 	channels[currentChannel]->setVisible(true);
+
+	for (int i = 0; i < channelSelectorButtons.size(); i++) {
+		Button* b = channelSelectorButtons[i];
+
+		if (i == currentChannel) {
+			b->setColour(TextButton::buttonColourId, Colours::white);
+			b->setColour(TextButton::textColourOnId, Colours::black);
+			b->setColour(TextButton::textColourOffId, Colours::black);
+		}
+		else {
+			b->setColour(TextButton::buttonColourId, Colours::black);
+			b->setColour(TextButton::textColourOnId, Colours::white);
+			b->setColour(TextButton::textColourOffId, Colours::white);
+		}
+	}
+}
+
+ChannelComponent * MainComponent::getActiveChannel()
+{
+	return channels[currentChannel];
+}
+
+void MainComponent::handleIncomingMidiMessage(MidiInput * source, const MidiMessage & message)
+{
+	if (message.isNoteOn()) {
+		int noteNumber = message.getNoteNumber();
+
+		if (noteIsOnKeyboard(noteNumber)) {
+			if (recording) {
+				int stepToPlace = Util::wrappingModulo(getActiveChannel()->getCurrentStepFromSequencer() - 1,
+					getActiveChannel()->getSequencerComponent()->getNumberOfSteps());
+				getActiveChannel()->midiNoteOn(Note(message.getNoteNumber()));
+				recordingNote = new RecordingNote(new Note(message.getNoteNumber()), 0, stepToPlace);
+			}
+			getActiveChannel()->midiNoteOn(Note(message.getNoteNumber()));
+			return;
+		}
+		else if (noteIsReservedNote(noteNumber)) {
+			if (noteNumber == TransportKeys::PLAY_TOGGLE) {
+				// then we activate/deactivate the timer to stop/start playback!
+				togglePlaying();
+			}
+			else if (noteNumber == TransportKeys::RECORD) {
+				// send record message to current channel
+				toggleRecording();
+			}
+			else {
+				// otherwise, our note is a channel select (for now)
+				const MessageManagerLock mmLock;
+				setActiveChannel(noteNumberToChannel(noteNumber));
+			}
+		}
+		DBG(" note on: " << message.getNoteNumber());
+	}
+	if (message.isNoteOff()) {
+		int noteNumber = message.getNoteNumber();
+
+		if (noteIsOnKeyboard(noteNumber)) {
+			// then we are either changing which channel is active or we are stopping/starting/recording
+			if (recording) {
+				if (recordingNote->duration > 0) {
+					getActiveChannel()->midiNoteOff(Note(message.getNoteNumber()));
+					getActiveChannel()->addStepToSequencer(recordingNote->startStep,
+						Note(recordingNote->note->getMidiNote()), recordingNote->duration);
+				}
+			}
+			getActiveChannel()->midiNoteOff(Note(message.getNoteNumber()));
+			return;
+		}
+	}
+}
+
+bool MainComponent::noteIsReservedNote(int note) {
+	if (note >= channelKeyStart && note <= channelKeyStart + numberOfChannels) {
+		return true;
+	}
+	if (transportKeySet.count(note) > 0) {
+		return true;
+	}
+
+	return false;
+}
+
+bool MainComponent::noteIsOnKeyboard(int note) {
+	if (note > 35 && note < 69) {
+		return true;
+	}
+	return false;
+}
+
+void MainComponent::handleNoteOn(MidiKeyboardState *, int midiChannel, int midiNoteNumber, float velocity)
+{
+	DBG("GOT NOTE " << midiNoteNumber);
+}
+
+void MainComponent::handleNoteOff(MidiKeyboardState *, int midiChannel, int midiNoteNumber, float velocity)
+{
+
 }

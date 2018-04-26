@@ -12,8 +12,8 @@ class SamplerAudioSource : public AudioSource
 public:
 	SamplerAudioSource()
 	{
-		for (auto i = 0; i < 4; ++i)
-			// add voices to synth for polyphonic playback
+		for (auto i = 0; i < 1; ++i)
+			// add voice to synth for monophonic playback
 			synth.addVoice(new SamplerVoice());
 
 		// setUsingSampleSound();
@@ -32,10 +32,15 @@ public:
 		allNotes.setRange(0, 128, true);
 
 		// adding the sample to the synthesizer
+		synth.clearVoices();
 		synth.clearSounds();
 		synth.addSound(new SamplerSound(
-			"example sound", *audioReader, allNotes, 74, 0.1, 0.1, 10.0
+			"example sound", *audioReader, allNotes, 45, 0.1, 10.0, 10.0
 		));
+
+		for (auto i = 0; i < 1; ++i)
+			// add voices to synth for polyphonic playback
+			synth.addVoice(new SamplerVoice());
 	}
 
 	void prepareToPlay(int /*samplesPerBlockExpected*/, double sampleRate) override
@@ -43,6 +48,15 @@ public:
 		// setting playback rate for our synthesizer based on the call
 		// in the MainComponent
 		synth.setCurrentPlaybackSampleRate(sampleRate);
+	}
+
+	void reset() {
+		// clear voices so any dangling notes vanish
+		synth.clearVoices();
+
+		for (auto i = 0; i < 1; ++i)
+			// add voices to synth for monophonic playback
+			synth.addVoice(new SamplerVoice());
 	}
 
 	void releaseResources() override {}

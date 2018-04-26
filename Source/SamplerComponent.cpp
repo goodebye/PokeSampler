@@ -14,8 +14,7 @@ SamplerComponent::SamplerComponent ()
 	synth = samplerSource.getSynth();
 	addAndMakeVisible(chooseFileButton);
 	chooseFileButton.setButtonText("SELECT FILE");
-	chooseFileButton.setColour(Label::backgroundColourId, Colours::magenta);
-	chooseFileButton.setColour(Label::textColourId, Colours::black);
+	chooseFileButton.setColour(TextButton::buttonColourId, Colours::black);
 	chooseFileButton.addListener(this);
     //[/Constructor_pre]
 
@@ -62,7 +61,8 @@ void SamplerComponent::buttonClicked(Button * button)
 	if (button == &chooseFileButton) {
 		File f = getSampleToLoad();
 
-		if (f.existsAsFile()) {
+		if (f.exists()) {
+			DBG("I EXIST");
 			samplerSource.setUsingSampleSound(f);
 		}
 	}
@@ -72,7 +72,7 @@ File SamplerComponent::getSampleToLoad() {
 	FileChooser sampleChooser("choose the sample you want to load!",
 		File::getSpecialLocation(File::userHomeDirectory),
 		"*.wav");
-	DBG("I RAN TOO");
+
 	if (sampleChooser.browseForFileToOpen())
 	{
 		File f = sampleChooser.getResult();
@@ -80,12 +80,17 @@ File SamplerComponent::getSampleToLoad() {
 	}
 }
 
+void SamplerComponent::reset() {
+	samplerSource.reset();
+}
 void SamplerComponent::paint (Graphics& g)
 {
     //[UserPrePaint]
     //[/UserPrePaint]
 
-    g.fillAll (Colours::skyblue);
+    g.fillAll (Colours::black);
+	g.setColour(Colours::white);
+	g.drawRect(0, 0, getWidth(), getHeight(), 3);
 
     //[UserPaint]
     //[/UserPaint]
