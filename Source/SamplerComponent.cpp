@@ -8,7 +8,7 @@
 	displays vital information about the sample.
 */
 
-SamplerComponent::SamplerComponent ()
+SamplerComponent::SamplerComponent() : thumbnailCache(5), thumbnail(2048, formatManager, thumbnailCache)
 {
     //[Constructor_pre]
 	synth = samplerSource.getSynth();
@@ -67,9 +67,8 @@ void SamplerComponent::buttonClicked(Button * button)
 			File f = sampleChooser.getResult();
 			samplerSource.setUsingSampleSound(f);
 			
-			WavAudioFormat wavFormat;
-
-			InputStream* is = f.createInputStream();
+			thumbnail.setSource(new FileInputSource(f));
+			repaint();
 		}
 	}
 }
@@ -77,6 +76,7 @@ void SamplerComponent::buttonClicked(Button * button)
 void SamplerComponent::reset() {
 	samplerSource.reset();
 }
+
 void SamplerComponent::paint (Graphics& g)
 {
     //[UserPrePaint]
@@ -85,6 +85,15 @@ void SamplerComponent::paint (Graphics& g)
     g.fillAll (Colours::black);
 	g.setColour(Colours::white);
 	g.drawRect(0, 0, getWidth(), getHeight(), 3);
+
+	Rectangle<int> thumbnailBounds(getWidth() / 7, getHeight() / 7, getWidth() - getWidth() / 2, getHeight() / 5 * 4);
+
+	g.setColour(Colours::red);                                   
+	thumbnail.drawChannels(g,                                    
+		thumbnailBounds,
+		0.0,                                    // start time
+		thumbnail.getTotalLength(),             // end time
+		1.0f);                                  // vertical zoom
 
     //[UserPaint]
     //[/UserPaint]
@@ -96,7 +105,7 @@ void SamplerComponent::resized()
     //[/UserPreResize]
 
     //[UserResized] 
-	chooseFileButton.setBounds(0 + 15, 0 + 15, getWidth() / 15, getWidth() / 25);
+	chooseFileButton.setBounds(0 + getHeight() / 10, 0 + getHeight() / 7, getWidth() / 15, getHeight() / 5 * 4);
     //[/UserResized]
 }
 #if 0

@@ -20,7 +20,6 @@ public:
 	void reset();
     //[/UserMethods]
 
-
 	void paint (Graphics& g) override;
     void resized() override;
 private:
@@ -30,7 +29,9 @@ private:
 	Random random;
 	SamplerAudioSource samplerSource;
 	AudioFormatManager formatManager;
-	// AudioThumbnail thumbnail;
+	AudioThumbnailCache thumbnailCache;
+	AudioThumbnail thumbnail;
+	bool haveThumbnail = false;
     //[/UserVariables]    
 
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SamplerComponent)
